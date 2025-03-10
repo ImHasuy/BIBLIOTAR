@@ -1,0 +1,6 @@
+@BIBLIOTAR_HostAddress = http://localhost:5127
+
+GET {{BIBLIOTAR_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
