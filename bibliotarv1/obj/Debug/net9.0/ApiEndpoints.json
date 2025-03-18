@@ -1,0 +1,12 @@
+[
+  {
+    "ContainingType": "bibliotar.Controllers.BookController",
+    "Method": "List",
+    "RelativePath": "api/Book",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]
