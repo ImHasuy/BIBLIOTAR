@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\csana\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\BIBLIOTAR.csproj": {}
+    "C:\\Users\\csana\\Desktop\\rendszerfejlesztes\\BIBLIOTAR\\BIBLIOTAR\\BiblioTar.csproj": {}
   },
   "projects": {
-    "C:\\Users\\csana\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\BIBLIOTAR.csproj": {
+    "C:\\Users\\csana\\Desktop\\rendszerfejlesztes\\BIBLIOTAR\\BIBLIOTAR\\BiblioTar.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\csana\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\BIBLIOTAR.csproj",
-        "projectName": "BIBLIOTAR",
-        "projectPath": "C:\\Users\\csana\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\BIBLIOTAR.csproj",
+        "projectUniqueName": "C:\\Users\\csana\\Desktop\\rendszerfejlesztes\\BIBLIOTAR\\BIBLIOTAR\\BiblioTar.csproj",
+        "projectName": "BiblioTar",
+        "projectPath": "C:\\Users\\csana\\Desktop\\rendszerfejlesztes\\BIBLIOTAR\\BIBLIOTAR\\BiblioTar.csproj",
         "packagesPath": "C:\\Users\\csana\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\csana\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\obj\\",
+        "outputPath": "C:\\Users\\csana\\Desktop\\rendszerfejlesztes\\BIBLIOTAR\\BIBLIOTAR\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
