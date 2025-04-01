@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BiblioTar")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b88ec4be5fd459b23d1796c75cbae392fdaa8de7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4b46dee9514058d3403a351421c3e63805b57e3b")]
 [assembly: System.Reflection.AssemblyProductAttribute("BiblioTar")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BiblioTar")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
