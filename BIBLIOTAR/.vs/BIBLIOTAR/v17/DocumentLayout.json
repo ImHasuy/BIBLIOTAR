@@ -5,10 +5,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|c:\\users\\csana\\desktop\\rendszerfejlesztes\\bibliotar\\bibliotar\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|c:\\users\\csana\\desktop\\rendszerfejlesztes\\bibliotar\\bibliotar\\entities\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|solutionrelative:entities\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,21 +14,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Book.cs",
-              "DocumentMoniker": "C:\\Users\\csana\\Desktop\\rendszerfejlesztes\\BIBLIOTAR\\BIBLIOTAR\\Entities\\Book.cs",
-              "RelativeDocumentMoniker": "Entities\\Book.cs",
-              "ToolTip": "C:\\Users\\csana\\Desktop\\rendszerfejlesztes\\BIBLIOTAR\\BIBLIOTAR\\Entities\\Book.cs",
-              "RelativeToolTip": "Entities\\Book.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-01T16:30:17.421Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -41,7 +24,7 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\csana\\Desktop\\rendszerfejlesztes\\BIBLIOTAR\\BIBLIOTAR\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-01T16:18:55.302Z",
               "EditorCaption": ""
