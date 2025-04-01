@@ -1,0 +1,6 @@
+﻿namespace BiblioTar.Entities
+{
+    public class sdf
+    {
+    }
+}
