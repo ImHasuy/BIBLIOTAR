@@ -15,6 +15,7 @@ namespace bibliotar.Controllers
             _bookService = bookService;
         }
 
+        //listing out the books
         [HttpGet]
         public IActionResult List()
         {
