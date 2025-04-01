@@ -1,6 +1,0 @@
-﻿namespace BiblioTar.Services
-{
-    public class sdf
-    {
-    }
-}

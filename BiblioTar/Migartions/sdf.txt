@@ -1,6 +1,0 @@
-﻿namespace BiblioTar.Migartions
-{
-    public class sdf
-    {
-    }
-}

@@ -1,6 +1,0 @@
-﻿namespace BiblioTar.Controllers
-{
-    public class sdf
-    {
-    }
-}
