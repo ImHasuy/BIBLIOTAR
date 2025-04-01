@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VjMmT0Dct0A=",
+  "dgSpecHash": "1r+5ECEijL8=",
   "success": true,
-  "projectFilePath": "C:\\Users\\csana\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\BIBLIOTAR.csproj",
+  "projectFilePath": "C:\\Users\\csana\\Documents\\GitHub\\BIBLIOTAR\\BiblioTar\\BiblioTar.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\csana\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.2\\microsoft.aspnetcore.openapi.9.0.2.nupkg.sha512",
     "C:\\Users\\csana\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
