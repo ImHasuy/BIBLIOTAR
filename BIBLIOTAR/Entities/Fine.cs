@@ -10,7 +10,7 @@
         public DateTime IssuedDate { get; set; }
 
 
-        public Borrow borrow { get; set; }
-        public User user { get; set; }
+        public Borrow Borrow { get; set; }
+        public User User { get; set; }
     }
 }
