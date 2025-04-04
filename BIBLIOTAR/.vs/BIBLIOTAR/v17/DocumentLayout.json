@@ -1,30 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\janov_c44j7\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\",
+  "WorkspaceRootPath": "C:\\Users\\safir\\Desktop\\BIBLIOTAR\\BIBLIOTAR\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|c:\\users\\janov_c44j7\\documents\\github\\bibliotar\\bibliotar\\entities\\address.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|solutionrelative:entities\\address.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|c:\\users\\safir\\desktop\\bibliotar\\bibliotar\\context\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|solutionrelative:context\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|c:\\users\\janov_c44j7\\documents\\github\\bibliotar\\bibliotar\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|solutionrelative:entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|c:\\users\\safir\\desktop\\bibliotar\\bibliotar\\entities\\reservation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|solutionrelative:entities\\reservation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|c:\\users\\janov_c44j7\\documents\\github\\bibliotar\\bibliotar\\entities\\borrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|c:\\users\\safir\\desktop\\bibliotar\\bibliotar\\entities\\borrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|solutionrelative:entities\\borrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|c:\\users\\janov_c44j7\\documents\\github\\bibliotar\\bibliotar\\entities\\fine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|solutionrelative:entities\\fine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|c:\\users\\safir\\desktop\\bibliotar\\bibliotar\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|solutionrelative:entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|c:\\users\\janov_c44j7\\documents\\github\\bibliotar\\bibliotar\\entities\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|solutionrelative:entities\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|c:\\users\\janov_c44j7\\documents\\github\\bibliotar\\bibliotar\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|c:\\users\\safir\\desktop\\bibliotar\\bibliotar\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|c:\\users\\safir\\desktop\\bibliotar\\bibliotar\\entities\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8456FF86-D864-44AD-AB0B-450979109DC9}|BiblioTar.csproj|solutionrelative:entities\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,84 +34,85 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Address.cs",
-              "DocumentMoniker": "C:\\Users\\janov_c44j7\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\Entities\\Address.cs",
-              "RelativeDocumentMoniker": "Entities\\Address.cs",
-              "ToolTip": "C:\\Users\\janov_c44j7\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\Entities\\Address.cs",
-              "RelativeToolTip": "Entities\\Address.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "Borrow.cs",
+              "DocumentMoniker": "C:\\Users\\safir\\Desktop\\BIBLIOTAR\\BIBLIOTAR\\Entities\\Borrow.cs",
+              "RelativeDocumentMoniker": "Entities\\Borrow.cs",
+              "ToolTip": "C:\\Users\\safir\\Desktop\\BIBLIOTAR\\BIBLIOTAR\\Entities\\Borrow.cs",
+              "RelativeToolTip": "Entities\\Borrow.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-04T17:34:08.877Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\janov_c44j7\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\Entities\\User.cs",
-              "RelativeDocumentMoniker": "Entities\\User.cs",
-              "ToolTip": "C:\\Users\\janov_c44j7\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\Entities\\User.cs",
-              "RelativeToolTip": "Entities\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-04T17:31:24.931Z",
+              "WhenOpened": "2025-04-04T19:30:43.935Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Fine.cs",
-              "DocumentMoniker": "C:\\Users\\janov_c44j7\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\Entities\\Fine.cs",
-              "RelativeDocumentMoniker": "Entities\\Fine.cs",
-              "ToolTip": "C:\\Users\\janov_c44j7\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\Entities\\Fine.cs",
-              "RelativeToolTip": "Entities\\Fine.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\safir\\Desktop\\BIBLIOTAR\\BIBLIOTAR\\Entities\\User.cs",
+              "RelativeDocumentMoniker": "Entities\\User.cs",
+              "ToolTip": "C:\\Users\\safir\\Desktop\\BIBLIOTAR\\BIBLIOTAR\\Entities\\User.cs",
+              "RelativeToolTip": "Entities\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-04T17:28:02.408Z",
+              "WhenOpened": "2025-04-04T19:23:46.909Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Borrow.cs",
-              "DocumentMoniker": "C:\\Users\\janov_c44j7\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\Entities\\Borrow.cs",
-              "RelativeDocumentMoniker": "Entities\\Borrow.cs",
-              "ToolTip": "C:\\Users\\janov_c44j7\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\Entities\\Borrow.cs",
-              "RelativeToolTip": "Entities\\Borrow.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\safir\\Desktop\\BIBLIOTAR\\BIBLIOTAR\\Context\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Context\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\safir\\Desktop\\BIBLIOTAR\\BIBLIOTAR\\Context\\AppDbContext.cs",
+              "RelativeToolTip": "Context\\AppDbContext.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAA5wB0AAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-04T17:20:31.814Z",
+              "WhenOpened": "2025-04-04T18:38:37.26Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
+              "Title": "Reservation.cs",
+              "DocumentMoniker": "C:\\Users\\safir\\Desktop\\BIBLIOTAR\\BIBLIOTAR\\Entities\\Reservation.cs",
+              "RelativeDocumentMoniker": "Entities\\Reservation.cs",
+              "ToolTip": "C:\\Users\\safir\\Desktop\\BIBLIOTAR\\BIBLIOTAR\\Entities\\Reservation.cs",
+              "RelativeToolTip": "Entities\\Reservation.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-04T05:23:14.779Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Book.cs",
-              "DocumentMoniker": "C:\\Users\\janov_c44j7\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\Entities\\Book.cs",
+              "DocumentMoniker": "C:\\Users\\safir\\Desktop\\BIBLIOTAR\\BIBLIOTAR\\Entities\\Book.cs",
               "RelativeDocumentMoniker": "Entities\\Book.cs",
-              "ToolTip": "C:\\Users\\janov_c44j7\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\Entities\\Book.cs",
+              "ToolTip": "C:\\Users\\safir\\Desktop\\BIBLIOTAR\\BIBLIOTAR\\Entities\\Book.cs",
               "RelativeToolTip": "Entities\\Book.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA1AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-04T05:23:11.99Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\janov_c44j7\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\safir\\Desktop\\BIBLIOTAR\\BIBLIOTAR\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\janov_c44j7\\Documents\\GitHub\\BIBLIOTAR\\BIBLIOTAR\\Program.cs",
+              "ToolTip": "C:\\Users\\safir\\Desktop\\BIBLIOTAR\\BIBLIOTAR\\Program.cs",
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-01T16:18:55.302Z"
+              "WhenOpened": "2025-04-01T16:18:55.302Z",
+              "EditorCaption": ""
             }
           ]
         }
