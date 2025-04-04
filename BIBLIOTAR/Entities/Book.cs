@@ -8,7 +8,7 @@
         public string Quality { get; set; }
         public string ISBN { get; set; }
         public string Category { get; set; }
-        public DateTime PublshDate { get; set; }
+        public DateTime PublishDate { get; set; }
         public enum Status { available, unalvilable }
 
 
