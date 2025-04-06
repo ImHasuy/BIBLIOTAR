@@ -1,4 +1,5 @@
-﻿using BiblioTar.Entities;
+﻿using BiblioTar.ConnectionTables;
+using BiblioTar.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -13,6 +14,7 @@ namespace BiblioTar.Context
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserRoles> UserRoles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -27,15 +29,28 @@ namespace BiblioTar.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+             //User 
             modelBuilder.Entity<User>()
                 .HasKey(u => u.Email);
 
-            modelBuilder.Entity<Address>()
-                .HasKey(u => u.Id);
 
-            modelBuilder.Entity<Address>()
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Address)
+                .WithOne(u => u.User)
+                .HasForeignKey<User>(u => u.AddressId)
+                .OnDelete(DeleteBehavior.Restrict); 
+
+            //Userroles kapcsolotabla 
+            modelBuilder.Entity<UserRoles>()
+                .HasKey(u => new { u.UserEmail, u.RoleId });
+
+            modelBuilder.Entity<UserRoles>()
                 .HasOne(u => u.User)
-                .WithOne(u => u.Address);
+                .WithMany(u => u.UserRoles)
+                .HasForeignKey(u => u.UserEmail)
+                .OnDelete(DeleteBehavior.Restrict); 
+
 
 
             //Ha nem mukodik akkor konvertalni kell
@@ -44,7 +59,22 @@ namespace BiblioTar.Context
                 .HasOne(u => u.User)
                 .WithMany(u => u.Borrows)
                 .HasForeignKey(u => u.UserEmail)
-                .HasPrincipalKey(u => u.Email);
+                .OnDelete(DeleteBehavior.Restrict); 
+
+
+            //Fine
+
+            modelBuilder.Entity<Fine>()
+                .HasKey(u => u.Id);
+
+            modelBuilder.Entity<Fine>()
+                .HasOne(u => u.Borrow)
+                .WithOne(u => u.Fine)
+                .HasForeignKey<Fine>(u => u.BorrowId)
+                .OnDelete(DeleteBehavior.Restrict); 
+
+
+
 
 
             //modelBuilder.Entity<Loan>()
@@ -60,7 +90,8 @@ namespace BiblioTar.Context
                .HasOne(u => u.User)
                .WithMany(u => u.Reservations)
                .HasForeignKey(u => u.Email)
-               .HasPrincipalKey(u => u.Email);
+               .HasPrincipalKey(u => u.Email)
+               .OnDelete(DeleteBehavior.Restrict); 
 
         }
     }
