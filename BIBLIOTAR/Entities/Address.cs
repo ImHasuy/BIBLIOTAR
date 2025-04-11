@@ -1,4 +1,6 @@
-﻿namespace BiblioTar.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BiblioTar.Entities
 {
     public class Address
     {
@@ -9,9 +11,10 @@
         public string HouseNumber { get; set; }
 
         public string Country { get; set; }
-        
 
-        public int UserId { get; set; }
+
+        [ForeignKey("User")]
+        public int? UserId { get; set; }
         public User? User { get; set; }
         
     }

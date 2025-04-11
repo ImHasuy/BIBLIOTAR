@@ -10,7 +10,5 @@
         public string Category { get; set; }
         public DateTime PublishDate { get; set; }
         public enum Status { available, unalvilable }
-
-
     }
 }
