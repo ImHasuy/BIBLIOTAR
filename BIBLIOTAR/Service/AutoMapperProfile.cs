@@ -13,7 +13,9 @@ namespace BiblioTar.Service
 
             //User config
             CreateMap<User, UserCreateDto>().ReverseMap(); //Vissza fele nem lehet mert a Createben nincs benne az AddressId
-        
+            CreateMap<User, EmployeeCreateDto>().ReverseMap();
+            
+
             //Fine config
             CreateMap<Fine, FineCreateDto>().ReverseMap();
             CreateMap<Fine, FineGetDto>().ReverseMap();

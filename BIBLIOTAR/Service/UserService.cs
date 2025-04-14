@@ -16,7 +16,8 @@ namespace BiblioTar.Service
 
     public interface IUserService
     {
-        Task<int> CreateAsync(UserCreateDto userCreateDto);
+        Task<int> RegisterCustomer(UserCreateDto userCreateDto);
+        Task<int> RegisterEmployee(EmployeeCreateDto employeeCreateDto);
     }
 
 
@@ -32,7 +33,7 @@ namespace BiblioTar.Service
         }
 
 
-        public async Task<int> CreateAsync(UserCreateDto userCreateDto)
+        public async Task<int> RegisterCustomer(UserCreateDto userCreateDto)
         {
             var user = _mapper.Map<User>(userCreateDto);
     
@@ -54,8 +55,29 @@ namespace BiblioTar.Service
             await _context.SaveChangesAsync();
             return user.Id;
 
-
         }
+        public async Task<int> RegisterEmployee(EmployeeCreateDto employeeCreateDto)
+        {
+            var user = _mapper.Map<User>(employeeCreateDto);
+
+            var address = new Address
+            {
+                ZipCode = employeeCreateDto.ZipCode,
+                City = employeeCreateDto.City,
+                Street = employeeCreateDto.Street,
+                HouseNumber = employeeCreateDto.HouseNumber,
+                Country = employeeCreateDto.Country
+            };
+            var temp = await _context.Addresses.AddAsync(address);
+            await _context.SaveChangesAsync();//Ha midnen igaz, menteni kell, hogy az id-t megkapja
+            user.AddressId = temp.Entity.Id;
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+            return user.Id;
+        }
+
+
+
 
         private async Task<string> GenerateToken(User user)
         {

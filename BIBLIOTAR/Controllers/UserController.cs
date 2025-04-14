@@ -21,9 +21,18 @@ namespace BiblioTar.Controllers
         [HttpPost]
         [Route("create")]
         [AllowAnonymous]
-        public async Task<IActionResult> Create([FromBody] UserCreateDto userCreateDto)
+        public async Task<IActionResult> Register([FromBody] UserCreateDto userCreateDto)
         {
-            var result = await _userService.CreateAsync(userCreateDto);
+            var result = await _userService.RegisterCustomer(userCreateDto);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("createEmployee")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RegisterEmployee([FromBody] EmployeeCreateDto employeeCreate)
+        {
+            var result = await _userService.RegisterEmployee(employeeCreate);
             return Ok(result);
         }
 
