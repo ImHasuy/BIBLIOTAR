@@ -9,13 +9,6 @@ namespace BiblioTar.Entities
         public string City { get; set; }
         public string Street { get; set; }
         public string HouseNumber { get; set; }
-
         public string Country { get; set; }
-
-
-        [ForeignKey("User")]
-        public int? UserId { get; set; }
-        public User? User { get; set; }
-        
     }
 }

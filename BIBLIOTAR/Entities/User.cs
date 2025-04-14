@@ -18,9 +18,9 @@ namespace BiblioTar.Entities
 
 
         public Address? Address { get; set; }
-        public List<Role>? Roles { get; set; }
-        public List<Reservation>? Reservations { get; set; }
-        public List<Borrow>? Borrows { get; set; }
+        public List<Role> Roles { get; set; } = new List<Role>();
+        public List<Reservation> Reservations { get; set; } = new List<Reservation>();
+        public List<Borrow> Borrows { get; set; } = new List<Borrow>();
 
     }
 }
