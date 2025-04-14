@@ -188,28 +188,6 @@ namespace BiblioTar.Migrations
                     b.ToTable("Reservations");
                 });
 
-            modelBuilder.Entity("BiblioTar.Entities.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Roles");
-                });
-
             modelBuilder.Entity("BiblioTar.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -235,6 +213,9 @@ namespace BiblioTar.Migrations
 
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Roles")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -292,13 +273,6 @@ namespace BiblioTar.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BiblioTar.Entities.Role", b =>
-                {
-                    b.HasOne("BiblioTar.Entities.User", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("BiblioTar.Entities.User", b =>
                 {
                     b.HasOne("BiblioTar.Entities.Address", "Address")
@@ -318,8 +292,6 @@ namespace BiblioTar.Migrations
                     b.Navigation("Borrows");
 
                     b.Navigation("Reservations");
-
-                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }

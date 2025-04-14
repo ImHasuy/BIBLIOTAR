@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiblioTar.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250411200922_DaysOverdueAdd")]
-    partial class DaysOverdueAdd
+    [Migration("20250414181424_DatabaseInitail")]
+    partial class DatabaseInitail
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,16 +49,11 @@ namespace BiblioTar.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ZipCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Addresses");
                 });
@@ -145,19 +140,13 @@ namespace BiblioTar.Migrations
                     b.Property<int>("BorrowId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DaysOverdue")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("IssuedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("PaidStatus")
                         .HasColumnType("bit");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("UserId1")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -165,7 +154,7 @@ namespace BiblioTar.Migrations
                     b.HasIndex("BorrowId")
                         .IsUnique();
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Fines");
                 });
@@ -190,7 +179,7 @@ namespace BiblioTar.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -200,23 +189,6 @@ namespace BiblioTar.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reservations");
-                });
-
-            modelBuilder.Entity("BiblioTar.Entities.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("BiblioTar.Entities.User", b =>
@@ -245,35 +217,14 @@ namespace BiblioTar.Migrations
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Roles")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("RoleUser", b =>
-                {
-                    b.Property<int>("RolesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RolesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("RoleUser");
-                });
-
-            modelBuilder.Entity("BiblioTar.Entities.Address", b =>
-                {
-                    b.HasOne("BiblioTar.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BiblioTar.Entities.Borrow", b =>
@@ -301,7 +252,7 @@ namespace BiblioTar.Migrations
 
                     b.HasOne("BiblioTar.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Borrow");
 
@@ -318,9 +269,7 @@ namespace BiblioTar.Migrations
 
                     b.HasOne("BiblioTar.Entities.User", "User")
                         .WithMany("Reservations")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Book");
 
@@ -334,21 +283,6 @@ namespace BiblioTar.Migrations
                         .HasForeignKey("AddressId");
 
                     b.Navigation("Address");
-                });
-
-            modelBuilder.Entity("RoleUser", b =>
-                {
-                    b.HasOne("BiblioTar.Entities.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BiblioTar.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("BiblioTar.Entities.Borrow", b =>

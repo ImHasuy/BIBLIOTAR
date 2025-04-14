@@ -18,7 +18,14 @@ namespace BiblioTar.Entities
 
 
         public Address? Address { get; set; }
-        public List<Role> Roles { get; set; } = new List<Role>();
+
+        public enum RoleEnums
+        {
+            Customer,
+            Librarian,
+            Administrator
+        }
+        public RoleEnums Roles { get; set; } = RoleEnums.Customer;
         public List<Reservation> Reservations { get; set; } = new List<Reservation>();
         public List<Borrow> Borrows { get; set; } = new List<Borrow>();
 
