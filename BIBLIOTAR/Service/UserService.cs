@@ -102,11 +102,16 @@ namespace BiblioTar.Service
                 new Claim(JwtRegisteredClaimNames.AuthTime, DateTime.Now.ToString(CultureInfo.InvariantCulture))
             };
 
-            //if (user.Roles != null && user.Roles.Any())
-            //{
-            //    claims.AddRange(user.Roles.Select(role => new Claim("roleIds", Convert.ToString(role.Id))));
-            //    claims.AddRange(user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name)));
-            //}
+            var roles = Enum.GetValues(typeof(User.RoleEnums))
+                    .Cast<User.RoleEnums>()
+                    .Where(r => user.Roles.HasFlag(r)); 
+
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim("roleIds", ((int)role).ToString()));
+                claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
+            }
+
 
             return new ClaimsIdentity(claims, "Token");
         }
