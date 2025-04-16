@@ -47,8 +47,7 @@ namespace BiblioTar.Controllers
                 return Unauthorized("Hibás email vagy jelszó.");
             }
             var token=_userService.GenerateToken(user);
-            return Ok(new { token });
-             
+            return Ok(token.Result );
         }
 
 

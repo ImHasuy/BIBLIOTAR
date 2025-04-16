@@ -90,9 +90,9 @@ namespace BiblioTar.Service
 
 
 
-        private async Task<string> GenerateToken(User user)
+        public async Task<string> GenerateToken(User user)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["kulcs"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("4zg4fgfhi84uh4bhfdjbihb4rfhib4fghib"));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expires = DateTime.Now.AddDays(Convert.ToDouble(5));
 
@@ -102,7 +102,7 @@ namespace BiblioTar.Service
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private async Task<ClaimsIdentity> GetClaimsIdentity(User user)
+        public async Task<ClaimsIdentity> GetClaimsIdentity(User user)
         {
             var claims = new List<Claim>
             {
