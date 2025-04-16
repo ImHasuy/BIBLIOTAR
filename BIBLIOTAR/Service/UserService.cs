@@ -3,6 +3,8 @@ using BiblioTar.Context;
 using BiblioTar.Controllers;
 using BiblioTar.DTOs;
 using BiblioTar.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
@@ -18,6 +20,8 @@ namespace BiblioTar.Service
     {
         Task<int> RegisterCustomer(UserCreateDto userCreateDto);
         Task<int> RegisterEmployee(EmployeeCreateDto employeeCreateDto);
+        Task<User?> Authenticate(string email, string password);
+        Task<string> GenerateToken(User user);
     }
 
 
@@ -76,6 +80,13 @@ namespace BiblioTar.Service
             return user.Id;
         }
 
+        public async Task<User?> Authenticate(string email, string password)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+            return user;
+        }
+
+        
 
 
 

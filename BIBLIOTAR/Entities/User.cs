@@ -22,9 +22,9 @@ namespace BiblioTar.Entities
         [Flags]
         public enum RoleEnums
         {
-            Customer=0,
-            Librarian=1,
-            Administrator=2
+            Customer=1,
+            Librarian=2,
+            Administrator=4
         }
         public RoleEnums Roles { get; set; } = RoleEnums.Customer;
         public List<Reservation> Reservations { get; set; } = new List<Reservation>();

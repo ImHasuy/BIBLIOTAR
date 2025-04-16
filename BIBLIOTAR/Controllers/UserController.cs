@@ -36,6 +36,20 @@ namespace BiblioTar.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        [Route("login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Authenticate([FromBody] LoginDto loginDto)
+        {
+            var user = await _userService.Authenticate(loginDto.Email,loginDto.Password);
+            if (user == null) 
+            {
+                return Unauthorized("Hibás email vagy jelszó.");
+            }
+            var token=_userService.GenerateToken(user);
+            return Ok(new { token });
+             
+        }
 
 
 
