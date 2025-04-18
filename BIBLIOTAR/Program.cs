@@ -28,6 +28,7 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddSwaggerGen();
 
+var Jwt = builder.Configuration.GetSection("JwtSettings");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -37,9 +38,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = "https://localhost:7017",
-            ValidAudience = "https://localhost:7017",
-            IssuerSigningKey=new SymmetricSecurityKey(Encoding.UTF8.GetBytes("kulcs"))
+            ValidIssuer = Jwt["Issuer"],
+            ValidAudience = Jwt["Audience"],
+            IssuerSigningKey=new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Jwt["SecretKey"]))
         };
     });
 

@@ -30,10 +30,11 @@ namespace BiblioTar.Service
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        public UserService(AppDbContext context, IMapper mapper)
+        public UserService(AppDbContext context, IMapper mapper,IConfiguration configuration)
         {
             _context = context;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
 
@@ -97,12 +98,12 @@ namespace BiblioTar.Service
 
         public async Task<string> GenerateToken(User user)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("4zg4fgfhi84uh4bhfdjbihb4rfhib4fghib"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(5));
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["JwtSettings:ExpiresInDays"]));
 
             var id = await GetClaimsIdentity(user);
-            var token = new JwtSecurityToken("https://localhost:7017", "https://localhost:7017", id.Claims, expires: expires, signingCredentials: creds);
+            var token = new JwtSecurityToken(_configuration["JwtSettings:Issuer"], _configuration["JwtSettings:Audience"], id.Claims, expires: expires, signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

@@ -26,7 +26,7 @@ namespace BiblioTar.DTOs
         [EmailAddress]
         public string Email { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; }2
         [Required]
         public string Password { get; set; }
         public int Roles { get; set; } 
