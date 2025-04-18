@@ -40,6 +40,8 @@ namespace BiblioTar.Service
         public async Task<int> RegisterCustomer(UserCreateDto userCreateDto)
         {
             var user = _mapper.Map<User>(userCreateDto);
+
+            user.Password=BCrypt.Net.BCrypt.HashPassword(user.Password);
     
             var address =  new Address
             { 
@@ -64,6 +66,8 @@ namespace BiblioTar.Service
         {
             var user = _mapper.Map<User>(employeeCreateDto);
 
+            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+
             var address = new Address
             {
                 ZipCode = employeeCreateDto.ZipCode,
@@ -82,8 +86,9 @@ namespace BiblioTar.Service
 
         public async Task<User?> Authenticate(string email, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
-            return user;
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            bool isValid = BCrypt.Net.BCrypt.Verify(password, user.Password);
+            return isValid ? user : null;
         }
 
         
