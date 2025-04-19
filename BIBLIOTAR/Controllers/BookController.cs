@@ -22,5 +22,17 @@ namespace BiblioTar.Controllers
             var resoult=await _bookService.RegisterBook(bookCreateDto);
             return Ok(resoult);
         }
+
+        [HttpDelete]
+        [Route("remove")]
+        public async Task<IActionResult> Delete([FromBody] int id)
+        {
+            var resoult= await _bookService.DeleteBook(id);
+            if (resoult)
+            {
+               return NoContent();
+            }
+            return NotFound();
+        }
     }
 }
