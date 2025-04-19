@@ -20,7 +20,9 @@ namespace BiblioTar.Service
             CreateMap<Fine, FineCreateDto>().ReverseMap();
             CreateMap<Fine, FineGetDto>().ReverseMap();
 
-
+            //Book config
+            CreateMap<Book, BookCreateDto>().ReverseMap();
+            CreateMap<Book,BookGetDto>().ReverseMap();
 
 
 
