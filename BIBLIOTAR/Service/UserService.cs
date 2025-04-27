@@ -57,7 +57,7 @@ namespace BiblioTar.Service
 
             var temp = await _context.Addresses.AddAsync(address);
             await _context.SaveChangesAsync();//Ha midnen igaz, menteni kell, hogy az id-t megkapja
-            user.AddressId = temp.Entity.Id;
+            //user.AddressId = temp.Entity.Id;
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             return user.Id;
@@ -79,7 +79,7 @@ namespace BiblioTar.Service
             };
             var temp = await _context.Addresses.AddAsync(address);
             await _context.SaveChangesAsync();//Ha midnen igaz, menteni kell, hogy az id-t megkapja
-            user.AddressId = temp.Entity.Id;
+            //user.AddressId = temp.Entity.Id;
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             return user.Id;

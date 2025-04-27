@@ -2,8 +2,8 @@
 {
     public class Book
     {
-        public enum StatusEnum { available, unalvilable }
         public int Id { get; set; }
+        public enum StatusEnum { available, unalvilable }
         public string Title { get; set; }
         public string Author { get; set; }
         public string Quality { get; set; }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiblioTar.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250419193203_BookStatusUpdate")]
-    partial class BookStatusUpdate
+    [Migration("20250427233010_CreateDB")]
+    partial class CreateDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,11 +49,17 @@ namespace BiblioTar.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ZipCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Addresses");
                 });
@@ -105,7 +111,7 @@ namespace BiblioTar.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BookId")
+                    b.Property<int>("BookId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("BorrowDate")
@@ -117,12 +123,13 @@ namespace BiblioTar.Migrations
                     b.Property<int>("RenewalsLeft")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookId");
+                    b.HasIndex("BookId")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -149,7 +156,7 @@ namespace BiblioTar.Migrations
                     b.Property<bool>("PaidStatus")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -187,7 +194,8 @@ namespace BiblioTar.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookId");
+                    b.HasIndex("BookId")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -202,12 +210,12 @@ namespace BiblioTar.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AddressId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -225,20 +233,33 @@ namespace BiblioTar.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
-
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("BiblioTar.Entities.Address", b =>
+                {
+                    b.HasOne("BiblioTar.Entities.User", "User")
+                        .WithOne("Address")
+                        .HasForeignKey("BiblioTar.Entities.Address", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BiblioTar.Entities.Borrow", b =>
                 {
                     b.HasOne("BiblioTar.Entities.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId");
+                        .WithOne()
+                        .HasForeignKey("BiblioTar.Entities.Borrow", "BookId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("BiblioTar.Entities.User", "User")
                         .WithMany("Borrows")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Book");
 
@@ -250,12 +271,14 @@ namespace BiblioTar.Migrations
                     b.HasOne("BiblioTar.Entities.Borrow", "Borrow")
                         .WithOne("Fine")
                         .HasForeignKey("BiblioTar.Entities.Fine", "BorrowId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("BiblioTar.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Borrow");
 
@@ -265,27 +288,19 @@ namespace BiblioTar.Migrations
             modelBuilder.Entity("BiblioTar.Entities.Reservation", b =>
                 {
                     b.HasOne("BiblioTar.Entities.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne()
+                        .HasForeignKey("BiblioTar.Entities.Reservation", "BookId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("BiblioTar.Entities.User", "User")
                         .WithMany("Reservations")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Book");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BiblioTar.Entities.User", b =>
-                {
-                    b.HasOne("BiblioTar.Entities.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
-
-                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("BiblioTar.Entities.Borrow", b =>
@@ -295,6 +310,9 @@ namespace BiblioTar.Migrations
 
             modelBuilder.Entity("BiblioTar.Entities.User", b =>
                 {
+                    b.Navigation("Address")
+                        .IsRequired();
+
                     b.Navigation("Borrows");
 
                     b.Navigation("Reservations");

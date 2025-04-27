@@ -21,12 +21,45 @@ namespace BiblioTar.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //user config
+
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.Reservations)
+                .WithOne(x => x.User)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.Borrows)
+                .WithOne(x => x.User)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //reservation config
+
+            modelBuilder.Entity<Reservation>()
+                .HasOne(x => x.Book)
+                .WithOne()
+                .HasForeignKey<Reservation>(x => x.BookId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //borrow config
+
+            modelBuilder.Entity<Borrow>()
+                .HasOne(x => x.Book)
+                .WithOne()
+                .HasForeignKey<Borrow>(x => x.BookId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //fine config 
 
             modelBuilder.Entity<Fine>()
-            .HasOne(f => f.Borrow)
-            .WithOne(b => b.Fine)
-            .HasForeignKey<Fine>(f => f.BorrowId)
-            .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(x => x.Borrow)
+                .WithOne(x => x.Fine)
+                .HasForeignKey<Fine>(x => x.BorrowId)
+                .OnDelete(DeleteBehavior.Restrict);
+                
+
         }
     }
 }
