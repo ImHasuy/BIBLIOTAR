@@ -29,7 +29,7 @@ namespace BiblioTar.Controllers
 
         [HttpPost]
         [Route("createEmployee")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RegisterEmployee([FromBody] EmployeeCreateDto employeeCreate)
         {
             var result = await _userService.RegisterEmployee(employeeCreate);
