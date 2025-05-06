@@ -24,7 +24,15 @@ namespace BiblioTar.Service
             CreateMap<Book, BookCreateDto>().ReverseMap();
             CreateMap<Book,BookGetDto>().ReverseMap();
 
+            //Employee config
 
+            CreateMap<UserGetDto, User>().ReverseMap();
+            
+            //Reservation config
+            CreateMap<Reservation, ReservationDto>().ReverseMap();
+            
+            //Borrow config
+            CreateMap<Borrow, BorrowDto>().ReverseMap();
 
         }
     }

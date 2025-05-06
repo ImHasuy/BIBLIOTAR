@@ -23,6 +23,10 @@ namespace BiblioTar.Service
         Task<User> Authenticate(LoginDto logindto);
         Task<string> GenerateToken(User user);
         Task<string> Login(LoginDto loginDto);
+        Task<string> Delete(string id);
+        Task<string> UpdateRole( UserUpdateDto userUpdateDto);
+        Task<UserGetDto> GetUserById(string id);
+        Task<List<UserGetDto>> GetAllUsers();
 
     }
 
@@ -47,6 +51,54 @@ namespace BiblioTar.Service
             
             
         }
+
+        public async Task<string> Delete(string id)
+        { 
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id.ToString() == id) ?? throw new Exception("User not found");
+            user.IsEnabled = false;
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return "User deleted successfully";
+        }
+
+        public async Task<string> UpdateRole(UserUpdateDto userUpdateDto)
+        {
+            
+            if (!Enum.IsDefined(typeof(User.RoleEnums), userUpdateDto.Roles))
+            {
+                throw new Exception("Roles cannot be null");
+            }
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id.ToString() == userUpdateDto.UserId.ToString()) ?? throw new Exception("User not found");
+            user.Roles = userUpdateDto.Roles;
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return "Role updated successfully";
+            
+        }
+
+        public async Task<UserGetDto> GetUserById(string id)
+        {
+            UserGetDto userGetDto = new UserGetDto();
+            var user = await _context.Users
+                .Include(u => u.Address)
+                .Include(x=>x.Borrows)
+                .Include(c=>c.Reservations)
+                .FirstOrDefaultAsync(u => u.Id.ToString() == id) ?? throw new Exception("User not found");
+            
+            return _mapper.Map<UserGetDto>(user);
+        }
+
+        public async Task<List<UserGetDto>> GetAllUsers()
+        {
+            var users = await _context.Users
+                .Include(u => u.Address)
+                .Include(x => x.Borrows)
+                .Include(c => c.Reservations)
+                .ToListAsync() ?? throw new Exception("No users found");
+            
+            return _mapper.Map<List<UserGetDto>>(users).ToList();
+        }
+
         public async Task<int> RegisterCustomer(UserCreateDto userCreateDto)
         {
             var user = _mapper.Map<User>(userCreateDto);

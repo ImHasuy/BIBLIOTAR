@@ -28,8 +28,10 @@ namespace BiblioTar.Controllers
             ApiResponse apiResponse = new ApiResponse();
             try
             {
-                var result = await _userService.RegisterCustomer(userCreateDto);
-                return Ok(result);
+                var response = await _userService.RegisterCustomer(userCreateDto);
+                apiResponse.Data = response;
+                apiResponse.Message = "User created successfully";
+                return Ok(apiResponse);
             }
             catch (Exception ex)
             {
@@ -49,8 +51,10 @@ namespace BiblioTar.Controllers
             ApiResponse apiResponse = new ApiResponse();
             try
             {
-                var result = await _userService.RegisterEmployee(employeeCreate);
-                return Ok(result);
+                var response = await _userService.RegisterEmployee(employeeCreate);
+                apiResponse.Data = response;
+                apiResponse.Message = "User created successfully";
+                return Ok(apiResponse);
             }
             catch (Exception ex)
             {
@@ -69,8 +73,10 @@ namespace BiblioTar.Controllers
             ApiResponse apiResponse = new ApiResponse();
             try
             {
-                var result = await _userService.Login(loginDto);
-                return Ok(result);
+                var response = await _userService.Login(loginDto);
+                apiResponse.Data = response;
+                apiResponse.Message = "User logged in successfully";
+                return Ok(apiResponse);
             }
             catch (Exception ex)
             {
@@ -81,7 +87,7 @@ namespace BiblioTar.Controllers
             return BadRequest(apiResponse); 
         }
         
-        [HttpPost]//Only for registered users
+        [HttpDelete]//Only for registered users
         [Route("Delete")]
         [AllowAnonymous]
         public async Task<IActionResult> Delete()
@@ -90,8 +96,8 @@ namespace BiblioTar.Controllers
             try
             {
                 string id = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-                var result = await _userService.Delete(id);
-                return Ok(result);
+                apiResponse.Message = await _userService.Delete(id);
+                return Ok(apiResponse);
             }
             catch (Exception ex)
             {
@@ -102,17 +108,16 @@ namespace BiblioTar.Controllers
             return BadRequest(apiResponse); 
         }
         
-        [HttpPost]
-        [Route("Delete")]
+        [HttpDelete]
+        [Route("DeleteUserById")]
         [AllowAnonymous]
-        public async Task<IActionResult> DeleteUser()
+        public async Task<IActionResult> DeleteUser(UserInputDto userInputDto)
         {
             ApiResponse apiResponse = new ApiResponse();
             try
             {
-                string id = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-                var result = await _userService.Delete(id);
-                return Ok(result);
+                apiResponse.Message = await _userService.Delete(userInputDto.Id.ToString());
+                return Ok(apiResponse);
             }
             catch (Exception ex)
             {
@@ -126,13 +131,13 @@ namespace BiblioTar.Controllers
         [HttpPut]
         [Route("UpdateRole")]
         [AllowAnonymous]
-        public async Task<IActionResult> UpdateRole(int id)
+        public async Task<IActionResult> UpdateRole(UserUpdateDto userUpdateDto)
         {
             ApiResponse apiResponse = new ApiResponse();
             try
             {
-                var result = await _userService.UpdateRole(id);
-                return Ok(result);
+                apiResponse.Message = await _userService.UpdateRole(userUpdateDto);
+                return Ok(apiResponse);
             }
             catch (Exception ex)
             {
@@ -146,13 +151,14 @@ namespace BiblioTar.Controllers
         [HttpGet]
         [Route("{userid}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetUserBack([FromRoute] int userid)
+        public async Task<IActionResult> GetUserBack([FromRoute] string userid)
         {
             ApiResponse apiResponse = new ApiResponse();
             try
             {
-                var result = await _userService.UpdateRole(userid);
-                return Ok(result);
+                apiResponse.Data = await _userService.GetUserById(userid);
+                apiResponse.Message = "User found successfully";
+                return Ok(apiResponse);
             }
             catch (Exception ex)
             {
@@ -166,13 +172,15 @@ namespace BiblioTar.Controllers
         [HttpGet]
         [Route("getuser")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetUserById(UserGetByIdDto userGetDto)
+        public async Task<IActionResult> GetUserById()
         {
             ApiResponse apiResponse = new ApiResponse();
             try
             {
-                var result = await _userService.UpdateRole(userGetDto);
-                return Ok(result);
+                string id = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+                apiResponse.Data = await _userService.GetUserById(id);
+                apiResponse.Message = "User found successfully";
+                return Ok(apiResponse);
             }
             catch (Exception ex)
             {
@@ -182,17 +190,19 @@ namespace BiblioTar.Controllers
             }
             return BadRequest(apiResponse); 
         }
+        
+        
 
         [HttpGet]
         [Route("Getallusers")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetUserById()
+        public async Task<IActionResult> GetAllUsers()
         {
             ApiResponse apiResponse = new ApiResponse();
             try
             {
-                var result = await _userService.GetAllUsers();
-                return Ok(result);
+                apiResponse.Data = await _userService.GetAllUsers();
+                return Ok(apiResponse);
             }
             catch (Exception ex)
             {
