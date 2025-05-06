@@ -15,9 +15,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
 {
-    //optionsBuilder.UseSqlServer("Server=adatb-mssql.mik.uni-pannon.hu,2019;Database=h13_rd7nam;User ID=h13_rd7nam;Password=wfaMpR5+=H;MultipleActiveResultSets=true;TrustServerCertificate=True;");
-    optionsBuilder.UseSqlServer("Server=localhost;Database=CryptoDb_RD7NAM;Trusted_Connection=True;TrustServerCertificate=True;");
-
+    //optionsBuilder.UseSqlServer("Server=localhost;Database=Bibliotar;Trusted_Connection=True;TrustServerCertificate=True;");
+    optionsBuilder.UseSqlServer("Server=ANYUKAD;Database=Bibliotar;Trusted_Connection=True;TrustServerCertificate=True;");
 });
 
 builder.Services.AddScoped<IAddressService, AddressService>();

@@ -17,9 +17,13 @@ namespace BiblioTar.DTOs
         public string Street { get; set; }
         public string HouseNumber { get; set; }
         public string Country { get; set; }
-
     }
 
+    public class UserGetByIdDto
+    {
+        public int Id { get; set; }
+    }
+    
     public class EmployeeCreateDto
     {
         [Required]

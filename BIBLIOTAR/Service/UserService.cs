@@ -20,8 +20,10 @@ namespace BiblioTar.Service
     {
         Task<int> RegisterCustomer(UserCreateDto userCreateDto);
         Task<int> RegisterEmployee(EmployeeCreateDto employeeCreateDto);
-        Task<User?> Authenticate(string email, string password);
+        Task<User> Authenticate(LoginDto logindto);
         Task<string> GenerateToken(User user);
+        Task<string> Login(LoginDto loginDto);
+
     }
 
 
@@ -38,11 +40,20 @@ namespace BiblioTar.Service
         }
 
 
+        public async Task<string> Login(LoginDto loginDto)
+        {
+            var user = await Authenticate(loginDto);
+            return await GenerateToken(user);
+            
+            
+        }
         public async Task<int> RegisterCustomer(UserCreateDto userCreateDto)
         {
             var user = _mapper.Map<User>(userCreateDto);
 
             user.Password=BCrypt.Net.BCrypt.HashPassword(user.Password);
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
     
             var address =  new Address
             { 
@@ -50,16 +61,12 @@ namespace BiblioTar.Service
                 City = userCreateDto.City,
                 Street = userCreateDto.Street,
                 HouseNumber = userCreateDto.HouseNumber,
-                Country = userCreateDto.Country
+                Country = userCreateDto.Country,
+                UserId = user.Id,
             };
-
-
-
-            var temp = await _context.Addresses.AddAsync(address);
-            await _context.SaveChangesAsync();//Ha midnen igaz, menteni kell, hogy az id-t megkapja
-            //user.AddressId = temp.Entity.Id;
-            await _context.Users.AddAsync(user);
+            await _context.Addresses.AddAsync(address);
             await _context.SaveChangesAsync();
+            
             return user.Id;
 
         }
@@ -68,33 +75,32 @@ namespace BiblioTar.Service
             var user = _mapper.Map<User>(employeeCreateDto);
 
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-
+            
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();//To generate an Id for the user
+            
             var address = new Address
             {
                 ZipCode = employeeCreateDto.ZipCode,
                 City = employeeCreateDto.City,
                 Street = employeeCreateDto.Street,
                 HouseNumber = employeeCreateDto.HouseNumber,
-                Country = employeeCreateDto.Country
+                Country = employeeCreateDto.Country,
+                UserId = user.Id,
             };
+            
             var temp = await _context.Addresses.AddAsync(address);
-            await _context.SaveChangesAsync();//Ha midnen igaz, menteni kell, hogy az id-t megkapja
-            //user.AddressId = temp.Entity.Id;
-            await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
+            
             return user.Id;
         }
 
-        public async Task<User?> Authenticate(string email, string password)
+        public async Task<User> Authenticate(LoginDto logindto)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-            bool isValid = BCrypt.Net.BCrypt.Verify(password, user.Password);
-            return isValid ? user : null;
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == logindto.Email) ?? throw new Exception("User not found");
+            bool isValid = BCrypt.Net.BCrypt.Verify(logindto.Password, user.Password);
+            return isValid ? user : throw new Exception("Invalid password");
         }
-
-        
-
-
 
         public async Task<string> GenerateToken(User user)
         {
@@ -132,6 +138,8 @@ namespace BiblioTar.Service
 
             return new ClaimsIdentity(claims, "Token");
         }
+
+
 
     }
 }
