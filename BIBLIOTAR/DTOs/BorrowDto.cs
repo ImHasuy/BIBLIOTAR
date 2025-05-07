@@ -36,7 +36,7 @@ public class BorrowInputDto
 public class BorrowExtendDto
 {
     public int Id { get; set; }
-    public int BorrowPeriodExtend { get; set; }
+    public int BorrowPeriodExtendInDays { get; set; }
 }
 
 public class BorrowStatusModifyDto

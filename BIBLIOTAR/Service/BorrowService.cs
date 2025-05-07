@@ -9,7 +9,6 @@ namespace BiblioTar.Service
     public interface IBorrowService
     {
         Task<int> CreateBorrow(BorrowCreateDto borrowCreateDto);
-        Task<string> DeleteBorrow(BorrowInputDto borrowInputDto);
         Task<string> ExtendBorrowPeriod(BorrowExtendDto borrowExtendDto);
         Task<string> ModifyBorrowStatus(BorrowStatusModifyDto borrowStatusModifyDto);
         Task<BorrowDto> GetBorrowByBookId(BorrowInputDto borrowInputDto);
@@ -52,25 +51,20 @@ namespace BiblioTar.Service
             return temp.Id;
         }
 
-        //Borrow Id
-        public async Task<string> DeleteBorrow(BorrowInputDto borrowInputDto)
-        {
-            var borrow = await _context.Borrows.FirstOrDefaultAsync(c=> c.Id == borrowInputDto.Id) ?? throw new Exception($"No borrow find with {borrowInputDto.Id}"); ;
-            _context.Borrows.Remove(borrow);
-            await _context.SaveChangesAsync();
-
-            return "Borrow deleted succesfully.";
-
-
-        }
 
         //Ide is borrow id
         public async Task<string> ExtendBorrowPeriod(BorrowExtendDto borrowExtendDto)
         {
             var borrow = await _context.Borrows.FirstOrDefaultAsync(c=> c.Id==borrowExtendDto.Id) ?? throw new Exception($"No borrow find with {borrowExtendDto.Id}");
-            borrow.DueDate.AddDays(borrowExtendDto.BorrowPeriodExtendInDays);
+            if(borrow.RenewalsLeft < 1)
+            {
+                throw new Exception("No more renewals left.");
+            }
+            borrow.DueDate = borrow.DueDate.AddDays(borrowExtendDto.BorrowPeriodExtendInDays);
             borrow.RenewalsLeft -= 1;
 
+            _context.Borrows.Update(borrow);
+            await _context.SaveChangesAsync();
             return $"Borrow period extended succesfully";
         }
 
@@ -92,8 +86,10 @@ namespace BiblioTar.Service
         //Ide a Borrow Id
         public async Task<string> ModifyBorrowStatus(BorrowStatusModifyDto borrowStatusModifyDto)
         {
-            var borrow = await _context.Borrows.FirstOrDefaultAsync(c => c.Id == borrowStatusModifyDto.Id) ?? throw new Exception($"No borrow find for {borrowStatusModifyDto.Id} Borrow");
+            
+            var borrow = await _context.Borrows.Include(k=>k.Book).FirstOrDefaultAsync(c => c.Id == borrowStatusModifyDto.Id) ?? throw new Exception($"No borrow find for {borrowStatusModifyDto.Id} Borrow");
             borrow.borrowStatus = borrowStatusModifyDto.StatusModifyer;
+            borrow.Book.Status = Book.StatusEnum.available;
             _context.Borrows.Update(borrow);
             await _context.SaveChangesAsync();
             return $"Borrow status succesfully modified to {borrowStatusModifyDto.StatusModifyer}";

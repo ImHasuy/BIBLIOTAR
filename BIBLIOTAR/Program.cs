@@ -47,6 +47,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Administrator"));
+    options.AddPolicy("StaffPolicy", policy => policy.RequireRole("Librarian", "Administrator"));
+    options.AddPolicy("AllUserPolicy", policy => policy.RequireRole("Customer", "Librarian", "Administrator"));
+    
+});
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
