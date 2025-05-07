@@ -27,6 +27,7 @@ namespace BiblioTar.Service
         Task<string> UpdateRole( UserUpdateDto userUpdateDto);
         Task<UserGetDto> GetUserById(string id);
         Task<List<UserGetDto>> GetAllUsers();
+        Task<string> UpdateInformations(UserDtoToUpdateFunc userToUpdate);
 
     }
 
@@ -97,6 +98,48 @@ namespace BiblioTar.Service
                 .ToListAsync() ?? throw new Exception("No users found");
             
             return _mapper.Map<List<UserGetDto>>(users).ToList();
+        }
+
+        public async Task<string> UpdateInformations(UserDtoToUpdateFunc userToUpdate)
+        {
+            var user = await _context.Users
+                .Include(c=>c.Address)
+                .FirstOrDefaultAsync(v=> v.Id.ToString() == userToUpdate.Id) 
+                       ?? throw new Exception("User not found"); 
+            
+                if (!string.IsNullOrEmpty(userToUpdate.PhoneNumber))
+                {
+                    user.PhoneNumber = userToUpdate.PhoneNumber;
+                }
+                
+                if (!string.IsNullOrEmpty(userToUpdate.Address.ZipCode))
+                {
+                    user.Address.ZipCode = userToUpdate.Address.ZipCode;
+                }
+                
+                if (!string.IsNullOrEmpty(userToUpdate.Address.City))
+                {
+                    user.Address.City = userToUpdate.Address.City;
+                }
+                
+                if (!string.IsNullOrEmpty(userToUpdate.Address.Street))
+                {
+                    user.Address.Street = userToUpdate.Address.Street;
+                }
+                
+                if (!string.IsNullOrEmpty(userToUpdate.Address.HouseNumber))
+                {
+                    user.Address.HouseNumber = userToUpdate.Address.HouseNumber;
+                }
+                
+                if (!string.IsNullOrEmpty(userToUpdate.Address.Country))
+                {
+                    user.Address.Country = userToUpdate.Address.Country;
+                }
+            
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+           return "User updated successfully";
         }
 
         public async Task<int> RegisterCustomer(UserCreateDto userCreateDto)

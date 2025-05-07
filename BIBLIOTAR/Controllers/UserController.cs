@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using AutoMapper;
 using BiblioTar.DTOs;
 using BiblioTar.Entities;
 using BiblioTar.Service;
@@ -15,9 +16,11 @@ namespace BiblioTar.Controllers
     {
 
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IMapper _mapper;
+        public UserController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -213,5 +216,31 @@ namespace BiblioTar.Controllers
             return BadRequest(apiResponse); 
         }
 
+
+        
+        [HttpPost]
+        [Route("UpdateInformations/{userid}")] //Az inputnal ki kell szedni a placeholder stringeket, mert a bentebbi Addressnél már nem tudja kezelni
+        [AllowAnonymous]
+        public async Task<IActionResult> UpdateInformations(UserUpdateInformationDto updateInformationDto, string userid)
+        {
+            var temp = _mapper.Map<UserDtoToUpdateFunc>(updateInformationDto);
+            temp.Id = userid;
+            ApiResponse apiResponse = new ApiResponse();
+            try
+            {
+                apiResponse.Message = await _userService.UpdateInformations(temp);
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                apiResponse.StatusCode = 400;
+                apiResponse.Message = ex.Message;
+                apiResponse.Success = false;
+            }
+            return BadRequest(apiResponse); 
+        }
+
+        
+        
     }
 }

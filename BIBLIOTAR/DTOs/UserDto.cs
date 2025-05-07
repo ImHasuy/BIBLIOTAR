@@ -10,6 +10,8 @@ namespace BiblioTar.DTOs
         [Required]
         [EmailAddress]
         public string Email { get; set; } 
+        [Phone]
+        public string PhoneNumber { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
@@ -31,6 +33,8 @@ namespace BiblioTar.DTOs
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+        [Phone]
+        public string PhoneNumber { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
@@ -47,6 +51,7 @@ namespace BiblioTar.DTOs
     {
         public int Id { get; set; } 
         public string Email { get; set; } 
+        public string PhoneNumber { get; set; }
         public string Name { get; set; }
         public DateTime RegistrationDate { get; set; } 
         public bool IsEnabled { get; set; } = true; //true == engedélyezett, false == letiltott
@@ -62,4 +67,19 @@ namespace BiblioTar.DTOs
         public int UserId { get; set; } 
         public User.RoleEnums Roles { get; set; } 
     }
+    
+    
+    public class UserUpdateInformationDto
+    {
+        public string PhoneNumber { get; set; }
+        public AddressCreateDto Address { get; set; }
+    }
+    
+    public class UserDtoToUpdateFunc
+    {
+        public string Id { get; set; }
+        public string PhoneNumber { get; set; }
+        public AddressCreateDto Address { get; set; }
+    }
+    
 }
