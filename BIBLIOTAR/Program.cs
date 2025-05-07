@@ -15,14 +15,15 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
 {
-    //optionsBuilder.UseSqlServer("Server=localhost;Database=Bibliotar;Trusted_Connection=True;TrustServerCertificate=True;");
-    optionsBuilder.UseSqlServer("Server=ANYUKAD;Database=Bibliotar;Trusted_Connection=True;TrustServerCertificate=True;");
+    optionsBuilder.UseSqlServer("Server=localhost;Database=Bibliotar;Trusted_Connection=True;TrustServerCertificate=True;");
+   // optionsBuilder.UseSqlServer("Server=ANYUKAD;Database=Bibliotar;Trusted_Connection=True;TrustServerCertificate=True;");
 });
 
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFineService, FineService>();
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IBorrowService, BorrowService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
