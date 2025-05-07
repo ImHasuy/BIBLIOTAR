@@ -47,8 +47,8 @@ namespace BiblioTar.Context
 
             modelBuilder.Entity<Borrow>()
                 .HasOne(x => x.Book)
-                .WithOne()
-                .HasForeignKey<Borrow>(x => x.BookId)
+                .WithMany()
+                .HasForeignKey(x => x.BookId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //fine config 
