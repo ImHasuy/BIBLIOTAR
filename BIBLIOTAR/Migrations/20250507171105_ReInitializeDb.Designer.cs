@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BiblioTar.Migrations
+namespace BIBLIOTAR.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250507163039_ModifiedBorrow")]
-    partial class ModifiedBorrow
+    [Migration("20250507171105_ReInitializeDb")]
+    partial class ReInitializeDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -224,6 +224,10 @@ namespace BiblioTar.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
