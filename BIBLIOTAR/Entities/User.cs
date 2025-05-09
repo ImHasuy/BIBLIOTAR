@@ -6,11 +6,15 @@ namespace BiblioTar.Entities
     {
         public int Id { get; set; } 
         public string Email { get; set; } //Tervezet szerin alternáló kulcs lesz
+        public string PhoneNumber { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
-        public DateTime RegistrationDate { get; set; }
+        
+        public DateTime RegistrationDate { get; set; } = DateTime.Now;
+        
         public bool IsEnabled { get; set; } = true; //true == engedélyezett, false == letiltott
-        public Address Address { get; set; }
+        
+        public Address Address { get; set; } 
 
         [Flags]
         public enum RoleEnums

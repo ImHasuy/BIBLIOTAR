@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace BiblioTar.Migrations
+namespace BIBLIOTAR.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDB : Migration
+    public partial class ReInitializeDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,6 +37,7 @@ namespace BiblioTar.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -82,7 +83,8 @@ namespace BiblioTar.Migrations
                     BookId = table.Column<int>(type: "int", nullable: false),
                     BorrowDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RenewalsLeft = table.Column<int>(type: "int", nullable: false)
+                    RenewalsLeft = table.Column<int>(type: "int", nullable: false),
+                    borrowStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -168,8 +170,7 @@ namespace BiblioTar.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Borrows_BookId",
                 table: "Borrows",
-                column: "BookId",
-                unique: true);
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Borrows_UserId",

@@ -20,8 +20,15 @@ namespace BiblioTar.Service
     {
         Task<int> RegisterCustomer(UserCreateDto userCreateDto);
         Task<int> RegisterEmployee(EmployeeCreateDto employeeCreateDto);
-        Task<User?> Authenticate(string email, string password);
+        Task<User> Authenticate(LoginDto logindto);
         Task<string> GenerateToken(User user);
+        Task<string> Login(LoginDto loginDto);
+        Task<string> Delete(string id);
+        Task<string> UpdateRole( UserUpdateDto userUpdateDto);
+        Task<UserGetDto> GetUserById(string id);
+        Task<List<UserGetDto>> GetAllUsers();
+        Task<string> UpdateInformations(UserDtoToUpdateFunc userToUpdate);
+
     }
 
 
@@ -38,11 +45,110 @@ namespace BiblioTar.Service
         }
 
 
+        public async Task<string> Login(LoginDto loginDto)
+        {
+            var user = await Authenticate(loginDto);
+            return await GenerateToken(user);
+            
+            
+        }
+
+        public async Task<string> Delete(string id)
+        { 
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id.ToString() == id) ?? throw new Exception("User not found");
+            user.IsEnabled = false;
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return "User deleted successfully";
+        }
+
+        public async Task<string> UpdateRole(UserUpdateDto userUpdateDto)
+        {
+            
+            if (!Enum.IsDefined(typeof(User.RoleEnums), userUpdateDto.Roles))
+            {
+                throw new Exception("Roles cannot be null");
+            }
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id.ToString() == userUpdateDto.UserId.ToString()) ?? throw new Exception("User not found");
+            user.Roles = userUpdateDto.Roles;
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return "Role updated successfully";
+            
+        }
+
+        public async Task<UserGetDto> GetUserById(string id)
+        {
+            UserGetDto userGetDto = new UserGetDto();
+            var user = await _context.Users
+                .Include(u => u.Address)
+                .Include(x=>x.Borrows)
+                .Include(c=>c.Reservations)
+                .FirstOrDefaultAsync(u => u.Id.ToString() == id) ?? throw new Exception("User not found");
+            
+            return _mapper.Map<UserGetDto>(user);
+        }
+
+        public async Task<List<UserGetDto>> GetAllUsers()
+        {
+            var users = await _context.Users
+                .Include(u => u.Address)
+                .Include(x => x.Borrows)
+                .Include(c => c.Reservations)
+                .ToListAsync() ?? throw new Exception("No users found");
+            
+            return _mapper.Map<List<UserGetDto>>(users).ToList();
+        }
+
+        public async Task<string> UpdateInformations(UserDtoToUpdateFunc userToUpdate)
+        {
+            var user = await _context.Users
+                .Include(c=>c.Address)
+                .FirstOrDefaultAsync(v=> v.Id.ToString() == userToUpdate.Id) 
+                       ?? throw new Exception("User not found"); 
+            
+                if (!string.IsNullOrEmpty(userToUpdate.PhoneNumber))
+                {
+                    user.PhoneNumber = userToUpdate.PhoneNumber;
+                }
+                
+                if (!string.IsNullOrEmpty(userToUpdate.Address.ZipCode))
+                {
+                    user.Address.ZipCode = userToUpdate.Address.ZipCode;
+                }
+                
+                if (!string.IsNullOrEmpty(userToUpdate.Address.City))
+                {
+                    user.Address.City = userToUpdate.Address.City;
+                }
+                
+                if (!string.IsNullOrEmpty(userToUpdate.Address.Street))
+                {
+                    user.Address.Street = userToUpdate.Address.Street;
+                }
+                
+                if (!string.IsNullOrEmpty(userToUpdate.Address.HouseNumber))
+                {
+                    user.Address.HouseNumber = userToUpdate.Address.HouseNumber;
+                }
+                
+                if (!string.IsNullOrEmpty(userToUpdate.Address.Country))
+                {
+                    user.Address.Country = userToUpdate.Address.Country;
+                }
+            
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+           return "User updated successfully";
+        }
+
         public async Task<int> RegisterCustomer(UserCreateDto userCreateDto)
         {
             var user = _mapper.Map<User>(userCreateDto);
 
             user.Password=BCrypt.Net.BCrypt.HashPassword(user.Password);
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
     
             var address =  new Address
             { 
@@ -50,16 +156,12 @@ namespace BiblioTar.Service
                 City = userCreateDto.City,
                 Street = userCreateDto.Street,
                 HouseNumber = userCreateDto.HouseNumber,
-                Country = userCreateDto.Country
+                Country = userCreateDto.Country,
+                UserId = user.Id,
             };
-
-
-
-            var temp = await _context.Addresses.AddAsync(address);
-            await _context.SaveChangesAsync();//Ha midnen igaz, menteni kell, hogy az id-t megkapja
-            //user.AddressId = temp.Entity.Id;
-            await _context.Users.AddAsync(user);
+            await _context.Addresses.AddAsync(address);
             await _context.SaveChangesAsync();
+            
             return user.Id;
 
         }
@@ -68,33 +170,32 @@ namespace BiblioTar.Service
             var user = _mapper.Map<User>(employeeCreateDto);
 
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-
+            
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();//To generate an Id for the user
+            
             var address = new Address
             {
                 ZipCode = employeeCreateDto.ZipCode,
                 City = employeeCreateDto.City,
                 Street = employeeCreateDto.Street,
                 HouseNumber = employeeCreateDto.HouseNumber,
-                Country = employeeCreateDto.Country
+                Country = employeeCreateDto.Country,
+                UserId = user.Id,
             };
+            
             var temp = await _context.Addresses.AddAsync(address);
-            await _context.SaveChangesAsync();//Ha midnen igaz, menteni kell, hogy az id-t megkapja
-            //user.AddressId = temp.Entity.Id;
-            await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
+            
             return user.Id;
         }
 
-        public async Task<User?> Authenticate(string email, string password)
+        public async Task<User> Authenticate(LoginDto logindto)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-            bool isValid = BCrypt.Net.BCrypt.Verify(password, user.Password);
-            return isValid ? user : null;
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == logindto.Email) ?? throw new Exception("User not found");
+            bool isValid = BCrypt.Net.BCrypt.Verify(logindto.Password, user.Password);
+            return isValid ? user : throw new Exception("Invalid password");
         }
-
-        
-
-
 
         public async Task<string> GenerateToken(User user)
         {
@@ -132,6 +233,8 @@ namespace BiblioTar.Service
 
             return new ClaimsIdentity(claims, "Token");
         }
+
+
 
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BiblioTar.Migrations
+namespace BIBLIOTAR.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -128,8 +128,7 @@ namespace BiblioTar.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookId")
-                        .IsUnique();
+                    b.HasIndex("BookId");
 
                     b.HasIndex("UserId");
 
@@ -225,6 +224,10 @@ namespace BiblioTar.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime2");
 
@@ -250,8 +253,8 @@ namespace BiblioTar.Migrations
             modelBuilder.Entity("BiblioTar.Entities.Borrow", b =>
                 {
                     b.HasOne("BiblioTar.Entities.Book", "Book")
-                        .WithOne()
-                        .HasForeignKey("BiblioTar.Entities.Borrow", "BookId")
+                        .WithMany()
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

@@ -12,7 +12,7 @@ namespace BiblioTar.Entities
 
         [ForeignKey("Book")]
         public int BookId { get; set; }
-        public DateTime BorrowDate { get; set; }
+        public DateTime BorrowDate { get; set; } = DateTime.Now;
         public DateTime DueDate { get; set; }
         public int RenewalsLeft { get; set; } = 2;
         public BorrowStatus borrowStatus { get; set; } = BorrowStatus.Borrowed; 

@@ -15,15 +15,15 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
 {
-    //optionsBuilder.UseSqlServer("Server=adatb-mssql.mik.uni-pannon.hu,2019;Database=h13_rd7nam;User ID=h13_rd7nam;Password=wfaMpR5+=H;MultipleActiveResultSets=true;TrustServerCertificate=True;");
-    optionsBuilder.UseSqlServer("Server=localhost;Database=CryptoDb_RD7NAM;Trusted_Connection=True;TrustServerCertificate=True;");
-
+    optionsBuilder.UseSqlServer("Server=localhost;Database=Bibliotar;Trusted_Connection=True;TrustServerCertificate=True;");
+   // optionsBuilder.UseSqlServer("Server=ANYUKAD;Database=Bibliotar;Trusted_Connection=True;TrustServerCertificate=True;");
 });
 
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFineService, FineService>();
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IBorrowService, BorrowService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
@@ -46,6 +46,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey=new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Jwt["SecretKey"]))
         };
     });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Administrator"));
+    options.AddPolicy("StaffPolicy", policy => policy.RequireRole("Librarian", "Administrator"));
+    options.AddPolicy("AllUserPolicy", policy => policy.RequireRole("Customer", "Librarian", "Administrator"));
+    
+});
+
+builder.Services.AddCors();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -84,9 +94,17 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors(options =>
+{
+    options.AllowAnyMethod();
+    options.AllowAnyOrigin();
+    options.AllowAnyHeader();
+});
 
 app.MapControllers();
 

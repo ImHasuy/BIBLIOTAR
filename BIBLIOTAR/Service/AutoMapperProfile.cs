@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BiblioTar.Entities;
 using BiblioTar.DTOs;
 
@@ -15,6 +15,9 @@ namespace BiblioTar.Service
             CreateMap<User, UserCreateDto>().ReverseMap(); //Vissza fele nem lehet mert a Createben nincs benne az AddressId
             CreateMap<User, EmployeeCreateDto>().ReverseMap();
             
+            //UserDto config
+            CreateMap<UserDtoToUpdateFunc, UserUpdateInformationDto>().ReverseMap()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
 
             //Fine config
             CreateMap<Fine, FineCreateDto>().ReverseMap();
@@ -24,8 +27,20 @@ namespace BiblioTar.Service
             CreateMap<Book, BookCreateDto>().ReverseMap();
             CreateMap<Book,BookGetDto>().ReverseMap();
 
+            //Employee config
 
+            CreateMap<UserGetDto, User>().ReverseMap();
+            
+            //Reservation config
+            CreateMap<Reservation, ReservationDto>().ReverseMap();
+            
+            //Borrow config
+            CreateMap<Borrow, BorrowDto>().ReverseMap();
 
+            
+
+            
+            
         }
     }
 }

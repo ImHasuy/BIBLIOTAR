@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BiblioTar.Migrations
+namespace BIBLIOTAR.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250427233010_CreateDB")]
-    partial class CreateDB
+    [Migration("20250507171105_ReInitializeDb")]
+    partial class ReInitializeDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -126,10 +126,12 @@ namespace BiblioTar.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int>("borrowStatus")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("BookId")
-                        .IsUnique();
+                    b.HasIndex("BookId");
 
                     b.HasIndex("UserId");
 
@@ -225,6 +227,10 @@ namespace BiblioTar.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime2");
 
@@ -250,8 +256,8 @@ namespace BiblioTar.Migrations
             modelBuilder.Entity("BiblioTar.Entities.Borrow", b =>
                 {
                     b.HasOne("BiblioTar.Entities.Book", "Book")
-                        .WithOne()
-                        .HasForeignKey("BiblioTar.Entities.Borrow", "BookId")
+                        .WithMany()
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

@@ -7,7 +7,7 @@ namespace BiblioTar.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class BookController : Controller
+    public class BookController : ControllerBase
     {
         private readonly IBookService _bookService;
         public BookController(IBookService bookService)
