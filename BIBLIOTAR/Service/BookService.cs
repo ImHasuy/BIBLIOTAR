@@ -3,6 +3,7 @@ using BiblioTar.Context;
 using BiblioTar.DTOs;
 using BiblioTar.Entities;
 using Microsoft.Build.Framework;
+using Microsoft.EntityFrameworkCore;
 
 namespace BiblioTar.Service
 {
@@ -10,6 +11,8 @@ namespace BiblioTar.Service
     {
         Task<int>RegisterBook(BookCreateDto bookCreateDto);
         Task<bool> DeleteBook(int id);
+        Task<List<BookGetDto>> GetAllBooks();
+        Task<BookGetDto> GetBook(string title);
     }
 
     public class BookService : IBookService
@@ -26,14 +29,22 @@ namespace BiblioTar.Service
 
         public async Task<bool> DeleteBook(int id )
         {
-            var book = await _appDbContext.Books.FindAsync(id);
-            if(book == null)
-            {
-                throw new KeyNotFoundException("Nem található");
-            }
+            var book = await _appDbContext.Books.FindAsync(id) ?? throw new Exception("Nem található");
             _appDbContext.Books.Remove(book);
             _appDbContext.SaveChanges();
             return true;
+        }
+
+        public async Task<List<BookGetDto>> GetAllBooks()
+        {
+            var books = await _appDbContext.Books.ToListAsync();
+            return _mapper.Map<List<BookGetDto>>(books);
+        }
+
+        public async Task<BookGetDto> GetBook(string title)
+        {
+            var book= await _appDbContext.Books.FirstOrDefaultAsync(x => x.Title == title) ?? throw new Exception("A könyv ne mtalálható");
+            return _mapper.Map<BookGetDto>(book);
         }
 
         public async Task<int> RegisterBook(BookCreateDto bookCreateDto)

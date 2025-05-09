@@ -2,53 +2,54 @@
 using BiblioTar.Context;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using BiblioTar.DTOs;
+using System.Security.Claims;
 
 namespace BiblioTar.Service
 {
-    public class ReservationService
+
+    public interface IReservationService
+    {
+        Task<int> CreateReservation(string title);
+    }
+    public class ReservationService: IReservationService
     {
         private readonly AppDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IMapper _mapper;
 
-        public ReservationService(AppDbContext context)
+        public ReservationService(AppDbContext context, IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
+            _mapper = mapper;
         }
-
-        public IEnumerable<Reservation> GetReservations()
+        public async Task<int> CreateReservation(string title)
         {
-            return _context.Reservations.ToList();
-        }
-
-        public Reservation GetReservation(int id)
-        {
-            return _context.Reservations.Find(id);
-        }
-
-        public Reservation CreateReservation(Reservation reservation)
-        {
-            _context.Reservations.Add(reservation);
-            _context.SaveChanges();
-            return reservation;
-        }
-
-        public void UpdateReservation(int id, Reservation reservation)
-        {
-            if (id == reservation.UserId)
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.Title == title) ?? throw new Exception("Nincs ilyne könyv");
+            if (book.Status == Book.StatusEnum.available) // Use the enum value directly
             {
-                _context.Entry(reservation).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                _context.SaveChanges();
+                ReservationDto reservation = new ReservationDto
+                {
+                    UserId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    BookId = book.Id,
+                    ReservationDate = DateTime.Now,
+                };
+                book.Status = Book.StatusEnum.unalvilable;
+                _context.Books.Update(book);
+                await _context.Reservations.AddAsync(_mapper.Map<Reservation>(reservation));
+                await _context.SaveChangesAsync();
+                return reservation.Id;
+            }
+            else
+            {
+                throw new Exception("A könyv már foglalt");
             }
         }
 
-        public void DeleteReservation(int id)
-        {
-            var reservation = _context.Reservations.Find(id);
-            if (reservation != null)
-            {
-                _context.Reservations.Remove(reservation);
-                _context.SaveChanges();
-            }
-        }
+
     }
 }
 

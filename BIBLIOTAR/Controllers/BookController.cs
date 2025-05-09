@@ -34,5 +34,27 @@ namespace BiblioTar.Controllers
             }
             return NotFound();
         }
+        [HttpGet]
+        [Route("getall")]
+        public async Task<IActionResult> GetAllBooks()
+        {
+            var resoult = await _bookService.GetAllBooks();
+            if (resoult == null)
+            {
+                return NotFound();
+            }
+            return Ok(resoult);
+        }
+        [HttpGet]
+        [Route("{title}")]
+        public async Task<IActionResult> GetBook(string title)
+        {
+            var resoult = await _bookService.GetBook(title);
+            if (resoult == null)
+            {
+                return NotFound();
+            }
+            return Ok(resoult);
+        }
     }
 }

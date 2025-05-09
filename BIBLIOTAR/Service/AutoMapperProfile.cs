@@ -27,7 +27,13 @@ namespace BiblioTar.Service
             CreateMap<Book, BookCreateDto>().ReverseMap();
             CreateMap<Book,BookGetDto>().ReverseMap();
 
+<<<<<<< Updated upstream
             //Employee config
+=======
+            //Reservation config
+            CreateMap<Reservation, ReservationDto>().ReverseMap();
+
+>>>>>>> Stashed changes
 
             CreateMap<UserGetDto, User>().ReverseMap();
             
