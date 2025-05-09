@@ -55,6 +55,7 @@ builder.Services.AddAuthorization(options =>
     
 });
 
+builder.Services.AddCors();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -93,9 +94,17 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors(options =>
+{
+    options.AllowAnyMethod();
+    options.AllowAnyOrigin();
+    options.AllowAnyHeader();
+});
 
 app.MapControllers();
 
