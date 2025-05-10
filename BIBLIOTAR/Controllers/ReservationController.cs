@@ -54,7 +54,8 @@ namespace BiblioTar.Controllers
         }
 
         [HttpGet]
-        [Route("MyReservations")] 
+        [Route("MyReservations")]
+        [Authorize]
         public async Task<IActionResult> GetMyReservations()
         {
             try
