@@ -37,7 +37,7 @@ namespace BiblioTar.Service
                     BookId = book.Id,
                     ReservationDate = DateTime.Now,
                 };
-                book.Status = Book.StatusEnum.unalvilable;
+                book.Status = Book.StatusEnum.unavailable;
                 _context.Books.Update(book);
                 await _context.Reservations.AddAsync(_mapper.Map<Reservation>(reservation));
                 await _context.SaveChangesAsync();
