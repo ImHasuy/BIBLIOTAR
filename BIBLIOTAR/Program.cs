@@ -19,6 +19,7 @@ builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
     //optionsBuilder.UseSqlServer("Server=adatb-mssql.mik.uni-pannon.hu,2019;Database=h13_rd7nam;User ID=h13_rd7nam;Password=wfaMpR5+=H;MultipleActiveResultSets=true;TrustServerCertificate=True;");
     optionsBuilder.UseSqlServer("Server=localhost;Database=Bibliotar;Trusted_Connection=True;TrustServerCertificate=True;");
     //optionsBuilder.UseSqlServer("Server=desktop-lln5qik\\SQLEXPRESS;Database=Bibliotar;Trusted_Connection=True;TrustServerCertificate=True;");
+    //optionsBuilder.UseSqlServer("Server=Mati\\SQLEXPRESS;Database=Bibliotar;Trusted_Connection=True;TrustServerCertificate=True;");
 
 });
 
