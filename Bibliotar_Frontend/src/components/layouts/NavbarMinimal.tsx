@@ -3,7 +3,7 @@ import {rem, Button, useMantineTheme} from "@mantine/core";
 import {
     IconUserCircle,
     IconLogout,
-    IconHome, IconList, IconUsers, IconBooks
+    IconHome, IconList, IconUsers, IconBooks, IconAsset
 } from "@tabler/icons-react";
 import classes from "./NavbarMinimalColored.module.css";
 import {useNavigate} from "react-router-dom";
@@ -57,6 +57,18 @@ export function NavbarMinimal({toggle}: any) {
             label: "Könyvek",
             url: "Books",
             roles: ['Administrator', 'Librarian', 'Customer']
+        },
+        {
+            icon: IconList,
+            label: "Foglalásaim",
+            url: "Reservations",
+            roles: ['Customer']
+        },
+        {
+            icon: IconAsset,
+            label: "Kölcsönzéseim",
+            url: "Borrows",
+            roles: ['Customer']
         },
         {
             icon: IconUsers,

@@ -9,7 +9,7 @@ export interface BookGetDto {
     status: number;
     id?: number; // Adding ID for navigation purposes
 }
-interface UserRegistrationDto {
+export interface UserRegistrationDto {
     email: string;
     phoneNumber: string;
     name: string;
