@@ -56,7 +56,7 @@ export function NavbarMinimal({toggle}: any) {
             icon: IconBooks,
             label: "Könyvek",
             url: "Books",
-            roles: ['Administrator', 'Librarian', 'Customer']
+            roles: ['Customer']
         },
         {
             icon: IconList,
@@ -71,6 +71,12 @@ export function NavbarMinimal({toggle}: any) {
             roles: ['Customer']
         },
         {
+            icon: IconAsset,
+            label: "Kölcsönzések kezelése",
+            url: "BorrowManager",
+            roles: ['Librarian']
+        },
+        {
             icon: IconUsers,
             label: "Felhasználók",
             url: "Users",
@@ -78,8 +84,8 @@ export function NavbarMinimal({toggle}: any) {
         },
         {
             icon: IconList,
-            label: "Kölcsönzések",
-            url: "Books",
+            label: "Könyvek kezelése",
+            url: "BooksManager",
             roles: ['Administrator']
         }
     ];

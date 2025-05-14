@@ -7,6 +7,9 @@ import Profile from "../pages/Profile.tsx";
 import Books from "../pages/Books.tsx";
 import Reservations from "../pages/Reservations.tsx";
 import Borrows from "../pages/Borrows.tsx";
+import BorrowManager from "../pages/BorrowManager.tsx";
+
+
 
 
 
@@ -56,5 +59,11 @@ export const routes = [
         component: <Borrows/>,
         isPrivate: true
     },
+    {
+        path: "BorrowManager",
+        component: <BorrowManager/>,
+        isPrivate: true
+    },
+
 
 ];

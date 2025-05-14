@@ -1,4 +1,4 @@
-﻿// src/interfaces/BookInterfaces.ts
+// src/interfaces/BookInterfaces.ts
 export interface BookGetDto {
     title: string;
     author: string;

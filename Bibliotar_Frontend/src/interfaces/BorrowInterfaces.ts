@@ -8,6 +8,8 @@ export interface BorrowDto {
     id: number;
     bookTitle: string;
     BookTitle: string; // Alternate casing to handle API response
+    userId: number;
+    UserId: number; // Alternate casing
     borrowDate: string;
     BorrowDate: string; // Alternate casing
     dueDate: string;
@@ -20,4 +22,9 @@ export interface BorrowDto {
 export interface ExtendBorrowDto {
     id: number;
     borrowPeriodExtendInDays: number;
+}
+
+export interface UpdateBorrowStatusDto {
+    id: number;
+    statusModifyer: number;
 }
