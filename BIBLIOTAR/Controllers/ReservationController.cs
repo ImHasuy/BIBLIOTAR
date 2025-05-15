@@ -2,6 +2,7 @@
 using BiblioTar.Entities;
 using System.Linq;
 using BiblioTar.Context;
+using BiblioTar.DTOs;
 using BiblioTar.Service;
 using Microsoft.AspNetCore.Authorization;
 using BiblioTar.Entities.Enums;
@@ -10,86 +11,66 @@ namespace BiblioTar.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ReservationController : ControllerBase
     {
         private readonly IReservationService _reservationService;
-        private readonly AppDbContext _dbContext;
 
-        public ReservationController(IReservationService reservationService, AppDbContext dbContext)
+        public ReservationController(IReservationService reservationService)
         {
             _reservationService = reservationService;
-            _dbContext = dbContext;
         }
 
         [HttpPost]
         [Route("create")]
-        [AllowAnonymous]
-        public async Task<IActionResult> CreateReservation([FromQuery] int bookId, [FromQuery] string? email = null)
+        [Authorize(Policy = "AllUserPolicy")]
+        public async Task<IActionResult> CreateReservationLoggedIn(ReservationCerateLoggedinDto reservation)
         {
+            
+            ApiResponse apiResponse = new ApiResponse();
             try
             {
-                var book = _dbContext.Books.FirstOrDefault(b => b.Id == bookId && b.Status == Book.StatusEnum.available);
-                if (book == null)
-                {
-                    return BadRequest(new { message = "A megadott könyv nem elérhető." });
-                }
-
-                int? userId = null;
-                if (User.Identity?.IsAuthenticated == true)
-                {
-                    var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserId");
-                    if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int parsedId))
-                    {
-                        userId = parsedId;
-                    }
-                }
-                else if (string.IsNullOrWhiteSpace(email))
-                {
-                    return BadRequest(new { message = "Email megadása kötelező anonim foglalás esetén." });
-                }
-
-                var reservation = new Reservation
-                {
-                    BookId = book.Id,
-                    UserId = userId,
-                    Email = email,
-                    ReservationDate = DateTime.Now,
-                    Status = ReservationStatus.Active
-                };
-
-                _dbContext.Reservations.Add(reservation);
-                await _dbContext.SaveChangesAsync();
-
-                book.Status = Book.StatusEnum.unavailable;
-                await _dbContext.SaveChangesAsync();
-
-                return Ok(new { message = "Foglalás sikeresen létrehozva.", reservation });
+                var response = await _reservationService.CreateReservationLoggedIn(reservation);
+                apiResponse.Data = response;
+                apiResponse.Message = "Reservation created successfully";
+                return Ok(apiResponse);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = $"Hiba történt a foglalás során: {ex.Message}" });
+                apiResponse.StatusCode = 400;
+                apiResponse.Message = ex.Message;
+                apiResponse.Success = false;
             }
+            return BadRequest(apiResponse); 
         }
-
-        [HttpGet]
-        [Route("AvailableBooks")]
+        
+        [HttpPost]
+        [Route("createAsGuest")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetAvailableBooks()
+        public async Task<IActionResult> CreateReservation(ReservationCerateDto reservation )
         {
+            
+            ApiResponse apiResponse = new ApiResponse();
             try
             {
-                var books = await _reservationService.GetAvailableBooksForReservation();
-                return Ok(books);
+                var response = await _reservationService.CreateReservation(reservation);
+                apiResponse.Data = response;
+                apiResponse.Message = "Reservation created successfully";
+                return Ok(apiResponse);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = $"Szerverhiba történt az elérhető könyvek lekérdezése közben: {ex.Message}" });
+                apiResponse.StatusCode = 400;
+                apiResponse.Message = ex.Message;
+                apiResponse.Success = false;
             }
+            return BadRequest(apiResponse); 
         }
+        
 
         [HttpGet]
         [Route("MyReservations")]
-        [Authorize]
+        [Authorize(Policy = "AllUserPolicy")]
         public async Task<IActionResult> GetMyReservations()
         {
             try

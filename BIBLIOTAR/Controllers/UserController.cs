@@ -92,7 +92,7 @@ namespace BiblioTar.Controllers
         
         [HttpDelete]//Only for registered users
         [Route("Delete")]
-        [AllowAnonymous]
+        [Authorize(Policy = "AllUserPolicy")]
         public async Task<IActionResult> Delete()
         {
             ApiResponse apiResponse = new ApiResponse();
@@ -113,7 +113,7 @@ namespace BiblioTar.Controllers
         
         [HttpDelete]
         [Route("DeleteUserById")]
-        [AllowAnonymous]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> DeleteUser(UserInputDto userInputDto)
         {
             ApiResponse apiResponse = new ApiResponse();
@@ -133,7 +133,7 @@ namespace BiblioTar.Controllers
 
         [HttpPut]
         [Route("UpdateRole")]
-        [AllowAnonymous]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> UpdateRole(UserUpdateDto userUpdateDto)
         {
             ApiResponse apiResponse = new ApiResponse();
@@ -153,7 +153,7 @@ namespace BiblioTar.Controllers
   
         [HttpGet]
         [Route("{userid}")]
-        [AllowAnonymous]
+        [Authorize(Policy = "StaffPolicy")]
         public async Task<IActionResult> GetUserBack([FromRoute] string userid)
         {
             ApiResponse apiResponse = new ApiResponse();
@@ -174,7 +174,7 @@ namespace BiblioTar.Controllers
         
         [HttpGet]
         [Route("getuser")]
-        [AllowAnonymous]
+        [Authorize(Policy = "AllUserPolicy")]
         public async Task<IActionResult> GetUserById()
         {
             ApiResponse apiResponse = new ApiResponse();
@@ -198,7 +198,7 @@ namespace BiblioTar.Controllers
 
         [HttpGet]
         [Route("Getallusers")]
-        [AllowAnonymous]
+        [Authorize(Policy = "StaffPolicy")]
         public async Task<IActionResult> GetAllUsers()
         {
             ApiResponse apiResponse = new ApiResponse();
@@ -218,13 +218,13 @@ namespace BiblioTar.Controllers
 
 
         
-        [HttpPost]
-        [Route("UpdateInformations/{userid}")] //Az inputnal ki kell szedni a placeholder stringeket, mert a bentebbi Addressnél már nem tudja kezelni
-        [AllowAnonymous]
-        public async Task<IActionResult> UpdateInformations(UserUpdateInformationDto updateInformationDto, string userid)
+        [HttpPut]
+        [Route("UpdateInformations")] //Az inputnal ki kell szedni a placeholder stringeket, mert a bentebbi Addressnél már nem tudja kezelni
+        [Authorize(Policy = "AllUserPolicy")]
+        public async Task<IActionResult> UpdateInformations(UserUpdateInformationDto updateInformationDto)
         {
             var temp = _mapper.Map<UserDtoToUpdateFunc>(updateInformationDto);
-            temp.Id = userid;
+            temp.Id = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             ApiResponse apiResponse = new ApiResponse();
             try
             {

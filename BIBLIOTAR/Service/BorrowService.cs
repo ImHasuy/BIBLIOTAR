@@ -11,8 +11,9 @@ namespace BiblioTar.Service
         Task<int> CreateBorrow(BorrowCreateDto borrowCreateDto);
         Task<string> ExtendBorrowPeriod(BorrowExtendDto borrowExtendDto);
         Task<string> ModifyBorrowStatus(BorrowStatusModifyDto borrowStatusModifyDto);
-        Task<BorrowDto> GetBorrowByBookId(BorrowInputDto borrowInputDto);
-        Task<List<BorrowDto>> GetAllBorrowForUser(BorrowInputDto borrowInputDto);
+        Task<BorrowGetDto> GetBorrowByBookId(BorrowInputDto borrowInputDto);
+        Task<List<BorrowGetDto>> GetAllBorrowForUser(BorrowInputDto borrowInputDto);
+        Task<List<BorrowGetDto>> GetAllBorrows();
     }
 
     public class BorrowService : IBorrowService
@@ -68,19 +69,23 @@ namespace BiblioTar.Service
             return $"Borrow period extended succesfully";
         }
 
-        public async Task<List<BorrowDto>> GetAllBorrowForUser(BorrowInputDto borrowInputDto)
+        public async Task<List<BorrowGetDto>> GetAllBorrowForUser(BorrowInputDto borrowInputDto)
         {
-            var borrows = await _context.Borrows.Where(c => c.UserId == borrowInputDto.Id).ToListAsync() ?? throw new Exception($"No borrows find for {borrowInputDto.Id} UserId");
-            return _mapper.Map<List<BorrowDto>>(borrows);
+            var borrows = await _context.Borrows.Include(v=>v.Book).Where(c => c.UserId == borrowInputDto.Id).ToListAsync() ?? throw new Exception($"No borrows find for {borrowInputDto.Id} UserId");
+            return _mapper.Map<List<BorrowGetDto>>(borrows);
+        }
+        
+        public async Task<List<BorrowGetDto>> GetAllBorrows()
+        {
+            var borrows = await _context.Borrows.Include(v=>v.Book).ToListAsync() ?? throw new Exception($"No borrows find");
+            return _mapper.Map<List<BorrowGetDto>>(borrows);
         }
 
         //Ide bookid
-        public async Task<BorrowDto> GetBorrowByBookId(BorrowInputDto borrowInputDto)
+        public async Task<BorrowGetDto> GetBorrowByBookId(BorrowInputDto borrowInputDto)
         {
-            var borrow = await _context.Borrows.FirstOrDefaultAsync(c=>c.BookId == borrowInputDto.Id) ?? throw new Exception($"No borrow find for {borrowInputDto.Id} BookId");
-            return _mapper.Map<BorrowDto>(borrow);
-
-
+            var borrow = await _context.Borrows.Include(v=>v.Book).FirstOrDefaultAsync(c=>c.BookId == borrowInputDto.Id) ?? throw new Exception($"No borrow find for {borrowInputDto.Id} BookId");
+            return _mapper.Map<BorrowGetDto>(borrow);
         }
 
         //Ide a Borrow Id

@@ -26,14 +26,18 @@ namespace BiblioTar.Service
             //Book config
             CreateMap<Book, BookCreateDto>().ReverseMap();
             CreateMap<Book,BookGetDto>().ReverseMap();
+            CreateMap<Book,BookUpdateDto>().ReverseMap();
+            
 
 
             //Employee config
 
             //Reservation config
-            CreateMap<Reservation, ReservationDto>().ReverseMap();
-            
+            CreateMap<Reservation, ReservationDto>()
+                .ForMember(dest => dest.BookTitle, opt => opt.MapFrom(src => src.Book.Title)).ReverseMap();
+            CreateMap<Reservation, ReservationLOggedCreateDto>().ReverseMap();
 
+            
             CreateMap<UserGetDto, User>().ReverseMap();
             
             //Reservation config
@@ -41,7 +45,9 @@ namespace BiblioTar.Service
             
             //Borrow config
             CreateMap<Borrow, BorrowDto>().ReverseMap();
-
+            CreateMap<Borrow, BorrowGetDto>()
+                .ForMember(dest => dest.BookTitle, opt => opt.MapFrom(src => src.Book.Title)).ReverseMap();
+            
             
 
             

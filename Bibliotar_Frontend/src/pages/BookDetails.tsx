@@ -18,7 +18,6 @@ import { useState, useEffect } from "react";
 import { useForm } from "@mantine/form";
 import api from "../api/api";
 import type {BookGetDto} from "../interfaces/BookInterfaces";
-// Import axiosInstance directly to make the POST request
 import axiosInstance from "../api/axios.config";
 
 const BookDetails = () => {
@@ -39,18 +38,15 @@ const BookDetails = () => {
     }
   });
 
-  // Fetch book details
   useEffect(() => {
     const fetchBookDetails = async () => {
       setIsLoading(true);
       setError(null);
       try {
-        // Since we don't have a specific endpoint to get a book by ID,
-        // we'll fetch all books and find the one by ID
         const response = await api.Book.listBooks();
         const books = response.data.map((book, index) => ({
           ...book,
-          id: book.id || index + 1 // Use existing ID or create one
+          id: book.id || index + 1
         }));
         
         const foundBook = books.find(b => b.id === Number(id));
@@ -72,7 +68,6 @@ const BookDetails = () => {
     }
   }, [id]);
 
-  // Then replace the handleReservation function with this:
 const handleReservation = async (values: typeof form.values) => {
   setIsReserving(true);
   setError(null);
@@ -83,15 +78,12 @@ const handleReservation = async (values: typeof form.values) => {
       Email: values.email,
       BookId: Number(id)
     };
-    
-    // Send the reservation request using axiosInstance directly
+
     const response = await axiosInstance.post('/api/Reservation/createAsGuest', reservationData);
-    
-    // If successful
+
     console.log('Reservation successful, ID:', response.data);
     setReservationSuccess(true);
-    
-    // Redirect to landing page after short delay
+
     setTimeout(() => {
       navigate('/');
     }, 2000);
@@ -103,7 +95,7 @@ const handleReservation = async (values: typeof form.values) => {
   }
 };
 
-  // Helper to convert status to readable format
+
   const getStatusText = (status: number) => {
     switch (status) {
       case 0:
@@ -117,7 +109,6 @@ const handleReservation = async (values: typeof form.values) => {
     }
   };
 
-  // Format date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('hu-HU');

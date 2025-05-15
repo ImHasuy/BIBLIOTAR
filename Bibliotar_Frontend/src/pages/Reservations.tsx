@@ -1,4 +1,3 @@
-﻿// src/pages/Reservations.tsx
 import {
   Container,
   Title,
@@ -17,7 +16,6 @@ const Reservations = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch user's reservations from API
   useEffect(() => {
     fetchReservations();
   }, []);
@@ -36,13 +34,11 @@ const Reservations = () => {
     }
   };
 
-  // Format date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('hu-HU');
   };
 
-  // Get status text
   const getStatusText = (status: ReservationStatus) => {
     switch (status) {
       case ReservationStatus.Active:

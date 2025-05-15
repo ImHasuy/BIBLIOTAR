@@ -1,13 +1,12 @@
-// src/interfaces/BookInterfaces.ts
 export interface BookGetDto {
     title: string;
     author: string;
     quality: string;
     isbn: string;
     category: string;
-    publishDate: string; // Date will come as string from API
+    publishDate: string;
     status: number;
-    id?: number; // Adding ID for navigation purposes
+    id?: number;
 }
 export interface UserRegistrationDto {
     email: string;
@@ -21,3 +20,16 @@ export interface UserRegistrationDto {
     country: string;
 }
 
+export interface BookCreateDto {
+    title: string;
+    author: string;
+    quality: string;
+    isbn: string;
+    category: string;
+    publishDate: string;
+    status: number;
+}
+
+export interface BookDeleteDto {
+    bookId: number;
+}

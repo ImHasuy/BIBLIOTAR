@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { Box, Button, Container, TextInput, Title, Grid, Paper } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import api from '../api/api';
@@ -43,10 +43,8 @@ function Profile() {
           country: values.address.country || ''
         }
       });
-      // Show success notification or redirect
     } catch (error) {
       console.error('Failed to update profile:', error);
-      // Show error notification
     } finally {
       setIsSubmitting(false);
     }

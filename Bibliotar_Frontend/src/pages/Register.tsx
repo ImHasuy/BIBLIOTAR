@@ -1,5 +1,4 @@
-﻿// src/pages/Register.tsx
-import {
+﻿import {
     Stack,
     TextInput,
     PasswordInput,
@@ -56,7 +55,6 @@ const Register = () => {
         setError(null);
         
         try {
-            // Create user registration data
             const userData = {
                 email: values.email,
                 phoneNumber: values.phoneNumber,
@@ -68,11 +66,7 @@ const Register = () => {
                 houseNumber: values.houseNumber,
                 country: values.country
             };
-            
-            // Send registration request
             await api.User.createUser(userData);
-            
-            // Redirect to login after successful registration
             navigate('/login');
         } catch (err) {
             console.error('Registration error:', err);

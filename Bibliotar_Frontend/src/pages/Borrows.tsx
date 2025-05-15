@@ -1,4 +1,3 @@
-﻿// src/pages/Borrows.tsx
 import {
     Container,
     Title,
@@ -11,6 +10,7 @@ import {
 } from "@mantine/core";
 import { useState, useEffect } from "react";
 import api from "../api/api";
+import axiosInstance from "../api/axios.config";
 import {type BorrowDto, BorrowStatus } from "../interfaces/BorrowInterfaces";
 
 const Borrows = () => {
@@ -19,7 +19,6 @@ const Borrows = () => {
     const [error, setError] = useState<string | null>(null);
     const [extendingBorrowId, setExtendingBorrowId] = useState<number | null>(null);
 
-    // Fetch borrows from API
     useEffect(() => {
         fetchBorrows();
     }, []);
@@ -28,27 +27,22 @@ const Borrows = () => {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await api.Borrow.getAllBorrows();
-            console.log("Received borrows raw:", response.data); // Debug full response
-            
-            // Ensure we're working with an array
+            const response = await api.Borrow.getUserBorrows();
+            console.log("Received user borrows raw:", response.data);
+
             let borrowsData: BorrowDto[] = [];
             if (Array.isArray(response.data)) {
                 borrowsData = response.data;
             } else if (response.data && typeof response.data === 'object') {
-                // If the response is an object but not an array, it might be wrapped in a property
-                // Try to extract an array from any property that might contain our data
                 const possibleArrays = Object.values(response.data).filter(value => Array.isArray(value));
                 if (possibleArrays.length > 0) {
-                    // Use the first array found
                     borrowsData = possibleArrays[0] as BorrowDto[];
                 } else {
-                    // If no arrays found but it's an object, wrap it in an array
                     borrowsData = [response.data as BorrowDto];
                 }
             }
             
-            console.log("Processed borrows data:", borrowsData); // Debug processed data
+            console.log("Processed borrows data:", borrowsData);
             setBorrows(borrowsData);
         } catch (error) {
             console.error("Error fetching borrows:", error);
@@ -84,29 +78,23 @@ const Borrows = () => {
         }
     };
 
-    // Helper function to get property regardless of casing
     const getProperty = (obj: any, key: string): any => {
         if (!obj) return undefined;
-        
-        // Try direct access
+
         if (obj[key] !== undefined) return obj[key];
-        
-        // Try camelCase
+
         const camelCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
         if (obj[camelCaseKey] !== undefined) return obj[camelCaseKey];
-        
-        // Try PascalCase
+
         const pascalCaseKey = key.charAt(0).toUpperCase() + key.slice(1);
         if (obj[pascalCaseKey] !== undefined) return obj[pascalCaseKey];
         
         return undefined;
     };
 
-    // Extend borrow period
     const handleExtendBorrow = async (borrowId: number) => {
         setExtendingBorrowId(borrowId);
         try {
-            // Always extend by 7 days
             const extendData = {
                 id: borrowId,
                 borrowPeriodExtendInDays: 7
@@ -114,14 +102,13 @@ const Borrows = () => {
 
             await api.Borrow.extendPeriod(extendData);
 
-            // Update the local state after successful extension
             setBorrows(prevBorrows =>
                 prevBorrows.map(borrow =>
                     borrow.id === borrowId
                         ? {
                             ...borrow,
                             renewalsLeft: (getProperty(borrow, 'renewalsLeft') - 1),
-                            // Also update the due date + 7 days
+
                             dueDate: new Date(new Date(getProperty(borrow, 'dueDate')).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString(),
                             DueDate: new Date(new Date(getProperty(borrow, 'dueDate')).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString()
                         }
@@ -183,6 +170,19 @@ const Borrows = () => {
                                             <Table.Td>{formatDate(getProperty(borrow, 'dueDate'))}</Table.Td>
                                             <Table.Td>{renewalsLeft}</Table.Td>
                                             <Table.Td c={status.color}>{status.text}</Table.Td>
+                                            <Table.Td>
+                                                {canExtend && (
+                                                    <Button
+                                                        size="xs"
+                                                        color="blue"
+                                                        onClick={() => handleExtendBorrow(borrow.id)}
+                                                        loading={isCurrentlyExtending}
+                                                        disabled={isCurrentlyExtending}
+                                                    >
+                                                        Hosszabbítás
+                                                    </Button>
+                                                )}
+                                            </Table.Td>
                                         </Table.Tr>
                                     );
                                 })

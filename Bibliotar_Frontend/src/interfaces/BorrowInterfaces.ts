@@ -1,30 +1,31 @@
-﻿export enum BorrowStatus {
-    Active = 0,
-    Returned = 1,
-    Overdue = 2
+export interface UpdateBorrowStatusDto {
+    borrowId: number;
+    newStatus: number;
 }
 
 export interface BorrowDto {
     id: number;
-    bookTitle: string;
-    BookTitle: string; // Alternate casing to handle API response
     userId: number;
-    UserId: number; // Alternate casing
+    bookId: number;
     borrowDate: string;
-    BorrowDate: string; // Alternate casing
-    dueDate: string;
-    DueDate: string; // Alternate casing
-    renewalsLeft: number;
-    RenewalsLeft: number; // Alternate casing
-    borrowStatus: BorrowStatus;
+    returnDate: string;
+    status: number;
 }
 
 export interface ExtendBorrowDto {
-    id: number;
-    borrowPeriodExtendInDays: number;
+    borrowId: number;
+    extensionPeriodInDays: number;
 }
 
-export interface UpdateBorrowStatusDto {
-    id: number;
-    statusModifyer: number;
+export interface CreateBorrowDto {
+    userId: number;
+    bookId: number;
+    borrowPeriodInDays: number;
+}
+
+export enum BorrowStatus {
+    Active = 0,
+    Returned = 1,
+    Overdue = 2,
+    Lost = 3
 }

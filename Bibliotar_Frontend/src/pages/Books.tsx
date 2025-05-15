@@ -1,5 +1,4 @@
-﻿// src/pages/Books.tsx
-import { 
+import {
   Container, 
   Title, 
   TextInput,
@@ -26,7 +25,6 @@ const Books = () => {
   const [error, setError] = useState<string | null>(null);
   const [reservingBookId, setReservingBookId] = useState<number | null>(null);
 
-  // Fetch books from API
   useEffect(() => {
     fetchBooks();
   }, []);
@@ -36,10 +34,9 @@ const Books = () => {
     setError(null);
     try {
       const response = await api.Book.listBooks();
-      // Assuming the API returns books with IDs; if not, we'll add them
       const booksWithIds = response.data.map((book, index) => ({
         ...book,
-        id: book.id || index + 1 // Use existing ID or create one
+        id: book.id || index + 1
       }));
       
       setBooks(booksWithIds);
@@ -52,7 +49,6 @@ const Books = () => {
     }
   };
 
-  // Handle search
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     
@@ -72,7 +68,6 @@ const Books = () => {
     setFilteredBooks(filtered);
   };
 
-  // Handle reservation
   const handleReservation = async (bookId: number) => {
     setReservingBookId(bookId);
     try {
@@ -81,7 +76,7 @@ const Books = () => {
       // Update the book's status locally
       const updatedBooks = books.map(book => 
         book.id === bookId 
-          ? { ...book, status: 2 } // Set to "Foglalt" status
+          ? { ...book, status: 2 }
           : book
       );
       
@@ -100,7 +95,6 @@ const Books = () => {
     }
   };
 
-  // Helper to convert status to readable format
   const getStatusText = (status: number) => {
     switch (status) {
       case 0:
@@ -114,7 +108,6 @@ const Books = () => {
     }
   };
 
-  // Format date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('hu-HU');

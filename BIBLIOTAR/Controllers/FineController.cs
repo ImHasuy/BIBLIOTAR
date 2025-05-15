@@ -1,11 +1,13 @@
 ﻿using BiblioTar.DTOs;
 using BiblioTar.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BiblioTar.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class FineController : ControllerBase
     {
 
@@ -18,6 +20,7 @@ namespace BiblioTar.Controllers
 
 
         [HttpPost]
+        [Authorize(Policy = "StaffPolicy")]
         public async Task<IActionResult> Create([FromBody] FineCreateDto fineCreateDto)
         {
             var result = await _fineService.CreateAsync(fineCreateDto);

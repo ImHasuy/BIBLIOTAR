@@ -1,4 +1,3 @@
-﻿// src/pages/BorrowManager.tsx
 import {
     Container,
     Title,
@@ -29,12 +28,10 @@ const BorrowManager = () => {
     const [imposingFineId, setImposingFineId] = useState<number | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-    // Fetch borrows from API
     useEffect(() => {
         fetchBorrows();
     }, []);
 
-    // Filter borrows when search term changes
     useEffect(() => {
         if (searchTerm === "") {
             setFilteredBorrows(borrows);
@@ -48,7 +45,6 @@ const BorrowManager = () => {
         }
     }, [searchTerm, borrows]);
 
-    // Clear success message after 3 seconds
     useEffect(() => {
         if (successMessage) {
             const timer = setTimeout(() => {
@@ -65,18 +61,14 @@ const BorrowManager = () => {
             const response = await api.Borrow.getAllBorrows();
             console.log("Received borrows:", response.data);
 
-            // Ensure we're working with an array
             let borrowsData: BorrowDto[] = [];
             if (Array.isArray(response.data)) {
                 borrowsData = response.data;
             } else if (response.data && typeof response.data === 'object') {
-                // If the response is an object but not an array, it might be wrapped in a property
                 const possibleArrays = Object.values(response.data).filter(value => Array.isArray(value));
                 if (possibleArrays.length > 0) {
-                    // Use the first array found
                     borrowsData = possibleArrays[0] as BorrowDto[];
                 } else {
-                    // If no arrays found but it's an object, wrap it in an array
                     borrowsData = [response.data as BorrowDto];
                 }
             }
@@ -91,7 +83,6 @@ const BorrowManager = () => {
         }
     };
 
-    // Format date
     const formatDate = (dateString: string) => {
         if (!dateString) return 'Ismeretlen dátum';
         try {
@@ -103,7 +94,6 @@ const BorrowManager = () => {
         }
     };
 
-    // Get status text
     const getStatusText = (status: BorrowStatus | undefined) => {
         switch (status) {
             case BorrowStatus.Active:
@@ -117,33 +107,26 @@ const BorrowManager = () => {
         }
     };
 
-    // Helper function to get property regardless of casing
     const getProperty = (obj: any, key: string): any => {
         if (!obj) return undefined;
 
-        // Try direct access
         if (obj[key] !== undefined) return obj[key];
 
-        // Try camelCase
         const camelCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
         if (obj[camelCaseKey] !== undefined) return obj[camelCaseKey];
 
-        // Try PascalCase
         const pascalCaseKey = key.charAt(0).toUpperCase() + key.slice(1);
         if (obj[pascalCaseKey] !== undefined) return obj[pascalCaseKey];
 
         return undefined;
     };
 
-    // Extend borrow period
     const handleExtendBorrow = async (borrowId: number) => {
         setExtendingBorrowId(borrowId);
         setError(null);
         try {
-            // Log the ID we're about to use
             console.log(`Extending borrow ID: ${borrowId}`);
-            
-            // Always extend by 7 days as specified
+
             const extendData: ExtendBorrowDto = {
                 id: borrowId,
                 borrowPeriodExtendInDays: 7
@@ -152,14 +135,13 @@ const BorrowManager = () => {
             console.log("Extending borrow with data:", extendData);
             await api.Borrow.extendPeriod(extendData);
 
-            // Update the local state after successful extension
             setBorrows(prevBorrows =>
                 prevBorrows.map(borrow =>
                     getProperty(borrow, 'id') === borrowId
                         ? {
                             ...borrow,
                             renewalsLeft: (getProperty(borrow, 'renewalsLeft') - 1),
-                            // Also update the due date + 7 days
+
                             dueDate: new Date(new Date(getProperty(borrow, 'dueDate')).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString(),
                             DueDate: new Date(new Date(getProperty(borrow, 'dueDate')).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString()
                         }
@@ -177,24 +159,20 @@ const BorrowManager = () => {
         }
     };
 
-    // Return a book
     const handleReturnBook = async (borrowId: number) => {
         setReturningBorrowId(borrowId);
         setError(null);
         try {
-            // Log the ID we're about to use
             console.log(`Returning borrow ID: ${borrowId}`);
-            
-            // Using the passed borrowId for the API call
+
             const updateData: UpdateBorrowStatusDto = {
                 id: borrowId,
                 statusModifyer: 1
             };
 
             console.log("Returning book with data:", updateData);
-            await api.Borrow.updateBorrowStatus(updateData); // Now uses POST method
+            await api.Borrow.updateBorrowStatus(updateData);
 
-            // Update the local state after successful return
             setBorrows(prevBorrows =>
                 prevBorrows.map(borrow =>
                     getProperty(borrow, 'id') === borrowId
@@ -216,25 +194,21 @@ const BorrowManager = () => {
         }
     };
 
-    // Impose fine
     const handleImposeFine = async (borrowId: number, userId: number) => {
         setImposingFineId(borrowId);
         setError(null);
         try {
-            // Log the IDs we're about to use
             console.log(`Imposing fine for borrow ID: ${borrowId}, user ID: ${userId}`);
-            
-            // Create fine with fixed amount of 5000
+
             const fineData: CreateFineDto = {
                 userId: userId,
                 borrowId: borrowId,
-                amount: 5000 // Always 5000 as specified
+                amount: 5000
             };
 
             console.log("Imposing fine with data:", fineData);
             await api.Fine.create(fineData);
 
-            // Show success message
             setSuccessMessage("Bírság sikeresen kiszabva!");
 
         } catch (error) {
@@ -245,7 +219,6 @@ const BorrowManager = () => {
         }
     };
 
-    // Clear search
     const handleClearSearch = () => {
         setSearchTerm("");
     };
@@ -305,7 +278,6 @@ const BorrowManager = () => {
                                 Array.isArray(filteredBorrows) && filteredBorrows.map((borrow) => {
                                     if (!borrow) return null;
 
-                                    // Consistently get properties using the helper function
                                     const borrowId = getProperty(borrow, 'id');
                                     const userId = getProperty(borrow, 'userId');
                                     const borrowStatus = getProperty(borrow, 'borrowStatus');

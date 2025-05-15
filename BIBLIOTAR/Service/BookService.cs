@@ -10,9 +10,10 @@ namespace BiblioTar.Service
     public interface IBookService
     {
         Task<int>RegisterBook(BookCreateDto bookCreateDto);
-        Task<bool> DeleteBook(int id);
+        Task<bool> DeleteBook(int bookId);
         Task<List<BookGetDto>> GetAllBooks();
         Task<BookGetDto> GetBook(string title);
+        Task<string> UpdateBook(BookUpdateDto bookUpdateDto);
     }
 
     public class BookService : IBookService
@@ -27,11 +28,11 @@ namespace BiblioTar.Service
             _mapper = mapper;
         }
 
-        public async Task<bool> DeleteBook(int id )
+        public async Task<bool> DeleteBook(int BookId)
         {
-            var book = await _appDbContext.Books.FindAsync(id) ?? throw new Exception("Nem található");
+            var book = await _appDbContext.Books.FindAsync(BookId) ?? throw new Exception("Nem található");
             _appDbContext.Books.Remove(book);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
             return true;
         }
 
@@ -43,7 +44,7 @@ namespace BiblioTar.Service
 
         public async Task<BookGetDto> GetBook(string title)
         {
-            var book= await _appDbContext.Books.FirstOrDefaultAsync(x => x.Title == title) ?? throw new Exception("A könyv ne mtalálható");
+            var book= await _appDbContext.Books.FirstOrDefaultAsync(x => x.Title == title) ?? throw new Exception("A könyv nem található");
             return _mapper.Map<BookGetDto>(book);
         }
 
@@ -53,6 +54,23 @@ namespace BiblioTar.Service
             await _appDbContext.Books.AddAsync(book);
             await _appDbContext.SaveChangesAsync();
             return book.Id;
+        }
+        
+        public async Task<string> UpdateBook(BookUpdateDto bookUpdateDto)
+        {
+            
+            var book = await _appDbContext.Books.FindAsync(bookUpdateDto.Id) ?? throw new Exception("A könyv nem található");
+            book.Title = bookUpdateDto.Title;
+            book.Author = bookUpdateDto.Author;
+            book.Category = bookUpdateDto.Category;
+            book.ISBN = bookUpdateDto.ISBN;
+            book.PublishDate = bookUpdateDto.PublishDate;
+            book.Quality = bookUpdateDto.Quality;
+            book.Status = (Book.StatusEnum)bookUpdateDto.Status;
+            
+            _appDbContext.Books.Update(book);
+            await _appDbContext.SaveChangesAsync();
+            return $"The book with id {book.Id} successfully updated";
         }
     }
 }

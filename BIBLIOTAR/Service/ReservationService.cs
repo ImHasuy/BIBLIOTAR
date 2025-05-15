@@ -13,7 +13,8 @@ namespace BiblioTar.Service
 
     public interface IReservationService
     {
-        Task<int> CreateReservation(string title);
+        Task<int> CreateReservation(ReservationCerateDto reservation);
+        Task<int> CreateReservationLoggedIn(ReservationCerateLoggedinDto reservation);
         Task<List<BookGetDto>> GetAvailableBooksForReservation();
         Task<List<ReservationDto>> GetMyReservations();
     }
@@ -30,49 +31,61 @@ namespace BiblioTar.Service
             _mapper = mapper;
         }
 
-        public async Task<int> CreateReservation(string title)
+        public async Task<int> CreateReservationLoggedIn(ReservationCerateLoggedinDto reservation)
         {
-            var book = await _context.Books.FirstOrDefaultAsync(b => b.Title == title)
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == reservation.BookId)
                 ?? throw new Exception("Nincs ilyen című könyv, vagy nem létezik.");
 
-            var userIdString = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(userIdString))
+            if (book.Status == Book.StatusEnum.unavailable)
             {
-                
-                throw new Exception("A foglaláshoz bejelentkezés szükséges.");
+                throw new Exception("Ez a könyv már le van foglalva.");
             }
-            var userId = int.Parse(userIdString);
-
+            string userIdString = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier) 
+                                  ?? throw new Exception("A foglaláshoz bejelentkezés szükséges.");
             
-            bool alreadyReservedByUser = await _context.Reservations
-                .AnyAsync(r => r.BookId == book.Id && r.UserId == userId && r.Status == ReservationStatus.Active);
-
-            if (alreadyReservedByUser)
+            ReservationLOggedCreateDto reservationCreateDto = new ReservationLOggedCreateDto()
             {
-                throw new Exception("Már van aktív foglalásod erre a könyvre.");
-            }
-
-            ReservationDto reservationDto = new ReservationDto
-            {
-                UserId = userId,
+                UserId = int.Parse(userIdString),
                 BookId = book.Id,
                 ReservationDate = DateTime.Now,
                 Status = ReservationStatus.Active 
             };
-
             
-            if (book.Status == Book.StatusEnum.available)
-            {
-                book.Status = Book.StatusEnum.unavailable;
-                _context.Books.Update(book);
-            }
-            
+            book.Status = Book.StatusEnum.reserved;
+            _context.Books.Update(book);
 
-            var reservationEntity = _mapper.Map<Reservation>(reservationDto);
+            var reservationEntity = _mapper.Map<Reservation>(reservationCreateDto);
             await _context.Reservations.AddAsync(reservationEntity);
             await _context.SaveChangesAsync();
 
             return reservationEntity.Id; 
+        }
+        
+        public async Task<int> CreateReservation(ReservationCerateDto reservation)
+        {
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == reservation.BookId)
+                       ?? throw new Exception("Nincs ilyen című könyv, vagy nem létezik.");
+
+            if (book.Status == Book.StatusEnum.unavailable)
+            {
+                throw new Exception("Ez a könyv már le van foglalva.");
+            }
+
+            Reservation L_res = new Reservation
+            {
+                Email = reservation.Email,
+                BookId = book.Id,
+                ReservationDate = DateTime.Now,
+                Status = ReservationStatus.Active
+            };
+            
+            book.Status = Book.StatusEnum.reserved;
+            _context.Books.Update(book);
+            
+            await _context.Reservations.AddAsync(L_res);
+            await _context.SaveChangesAsync();
+
+            return L_res.Id; 
         }
 
         public async Task<List<BookGetDto>> GetAvailableBooksForReservation()

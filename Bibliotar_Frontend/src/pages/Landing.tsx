@@ -1,5 +1,4 @@
-﻿// src/pages/Landing.tsx
-import { 
+﻿import {
   Container, 
   Title, 
   Text, 
@@ -20,7 +19,6 @@ import { useState, useEffect } from "react";
 import api from "../api/api";
 import type {BookGetDto} from "../interfaces/BookInterfaces";
 
-// Rest of your component code remains the same
 const Landing = () => {
   const navigate = useNavigate();
   const [books, setBooks] = useState<BookGetDto[]>([]);
@@ -29,17 +27,16 @@ const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch books from API
+
   useEffect(() => {
     const fetchBooks = async () => {
       setIsLoading(true);
       setError(null);
       try {
         const response = await api.Book.listBooks();
-        // Assuming the API returns books with IDs; if not, we'll add them
         const booksWithIds = response.data.map((book, index) => ({
           ...book,
-          id: book.id || index + 1 // Use existing ID or create one
+          id: book.id || index + 1
         }));
         
         setBooks(booksWithIds);
@@ -55,7 +52,6 @@ const Landing = () => {
     fetchBooks();
   }, []);
 
-  // Handle search
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     
@@ -75,12 +71,10 @@ const Landing = () => {
     setFilteredBooks(filtered);
   };
 
-  // Handle reservation button click
   const handleReservation = (bookId: number) => {
     navigate(`/books/${bookId}`);
   };
 
-  // Helper to convert status to readable format
   const getStatusText = (status: number) => {
     switch (status) {
       case 0:
@@ -94,7 +88,6 @@ const Landing = () => {
     }
   };
 
-  // Format date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('hu-HU');

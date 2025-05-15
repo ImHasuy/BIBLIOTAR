@@ -14,6 +14,17 @@ public class BorrowDto
     public BorrowStatus borrowStatus { get; set; }  
 }
 
+public class BorrowGetDto
+{
+    public int Id { get; set; }
+    public string BookTitle { get; set; }
+    public int UserId { get; set; }  // Egyben a foreign key is
+    public DateTime BorrowDate { get; set; }
+    public DateTime DueDate { get; set; }
+    public int RenewalsLeft { get; set; } 
+    public BorrowStatus borrowStatus { get; set; }  
+}
+
 
 
 public class BorrowCreateDto
@@ -41,6 +52,6 @@ public class BorrowExtendDto
 
 public class BorrowStatusModifyDto
 {
-    public int Id { get; set; }
+    public int Id { get; set; } // BoorwId
     public BorrowStatus StatusModifyer { get; set; }
 }

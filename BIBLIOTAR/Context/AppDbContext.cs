@@ -41,7 +41,7 @@ namespace BiblioTar.Context
                 .HasOne(x => x.Book)
                 .WithOne()
                 .HasForeignKey<Reservation>(x => x.BookId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             //borrow config
 
@@ -49,7 +49,7 @@ namespace BiblioTar.Context
                 .HasOne(x => x.Book)
                 .WithMany()
                 .HasForeignKey(x => x.BookId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             //fine config 
 
@@ -57,7 +57,7 @@ namespace BiblioTar.Context
                 .HasOne(x => x.Borrow)
                 .WithOne(x => x.Fine)
                 .HasForeignKey<Fine>(x => x.BorrowId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
                 
 
         }
