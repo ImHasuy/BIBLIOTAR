@@ -1,4 +1,4 @@
-export interface UpdateBorrowStatusDto {
+﻿export interface UpdateBorrowStatusDto {
     borrowId: number;
     newStatus: number;
 }
